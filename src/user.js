@@ -76,25 +76,25 @@ export function decode (blob, strict) {
 
 /**
  * Resolves an entity.
- * @param  {object} props  A dict with keys that will tell us what to do. (For react components, this is the props object) If the entity object is given, the name is ignored.
- * @param  {string} props.username [Deprecated] The username to resolve.
- * @param  {object} props.user [Deprecated] The user object. No resolve will be made, just used as if resolved.
- * @param  {object} props.entity The full entiry object. No resolve willi be made, just used as if resolved.
+ *
+ * @param  {object} props  A dict with keys that will tell us what to do. (For
+ *                         react components, this is the props object) If the
+ *                         entity object is given, the name is ignored.
+ * @param  {object} props.entity The full entiry object. No resolve willi be
+ *                               made, just used as if resolved.
  * @param  {object} props.entityId The entityId to resolve.
- * @param  {boolean} strict Passed to the decode method. If the encoded name doesn't pass safty-checks, strict throws it out.
- * @return {Promise} A promise that will resolve with the entity, or reject with a reason for failure.
+ * @param  {boolean} strict Passed to the decode method. If the encoded name
+ *                          doesn't pass safty-checks, strict throws it out.
+ * @return {Promise} A promise that will resolve with the entity, or reject
+ *                     with a reason for failure.
  */
-export function resolve (props, strict = false) {
-	let {username, user, entity, entityId} = props;
-	let promise;
+export function resolve ({entity, entityId}, strict = false) {
 
-	entity = entity || user || entityId || username;
+	entity = entity || entityId;
 
-	if (!entity) {
-		promise = Promise.reject('No Entity');
-	}
-
-	promise = promise || (entity && typeof entity === 'object' && Promise.resolve(entity));
+	let promise = !entity
+		? Promise.reject('No Entity')
+		: (typeof entity === 'object' && Promise.resolve(entity));
 
 	if (!promise) {
 
