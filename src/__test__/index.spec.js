@@ -1,7 +1,7 @@
 /* global $AppConfig */
 import QueryString from 'query-string';
 import Url from 'url';
-import Interface from 'nti-lib-interfaces/lib/interface';
+
 import {
 	getAppUsername,
 	getAppUser,
@@ -80,7 +80,7 @@ describe('Client Interface', () => {
 			const ds = getServer();
 			expect(getServer.interface).toBe(ds);
 			expect(ds).toBeTruthy();
-			expect(ds instanceof Interface).toBeTruthy();
+
 			expect(ds.config).toBe($AppConfig);
 			expect(ds.config.server).toBe($AppConfig.server);
 			expect(getServer.datacache).toBeTruthy();
