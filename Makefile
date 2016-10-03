@@ -1,13 +1,6 @@
-.PHONY:
-	clean \
-	check \
-	test
+.PHONY: clean check test
 
 
-ROOT_DIR = $(patsubst %/,%, $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
-
-SRC = $(shell find src -name '*.js')
-LIB = $(SRC:src/%.js=lib/%.js)
 LIBDIR = lib
 REPORTS = reports
 
@@ -29,8 +22,5 @@ clean:
 	@rm -rf $(LIBDIR)
 	@rm -rf $(REPORTS)
 
-lib: $(LIB)
-lib/%.js: src/%.js
-#	@echo babel	$@...
-	@mkdir -p $(@D)
-	babel $< -o $@
+lib: clean
+	@NODE_ENV=rollup rollup -c

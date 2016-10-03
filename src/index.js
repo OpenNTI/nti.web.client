@@ -4,6 +4,11 @@ import Logger from 'nti-util-logger';
 import QueryString from 'query-string';
 import dataserver from 'nti-lib-interfaces';
 
+export * as User from './user';
+export ExternalLibraryManager from './ExternalLibraryManager';
+
+
+
 const logger = Logger.get('nti:bootstrap');
 
 
