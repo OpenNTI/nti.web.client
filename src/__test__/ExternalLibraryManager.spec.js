@@ -2,7 +2,7 @@ import Mixin, { //eslint-disable-line no-unused-vars
 	getSymbol,
 	appendToSingletonElement,
 	createElement
-} from '../ExternalLibraryManagerMixin';
+} from '../ExternalLibraryManager';
 
 describe('External Library Manager (Mixin)', () => {
 
