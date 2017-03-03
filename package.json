@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repos.nextthought.com/git/nti.web.client"
+    "url": "https://github.com/NextThought/nti.web.client.git"
   },
   "keywords": [
     "bootstrap"
