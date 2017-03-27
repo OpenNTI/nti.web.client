@@ -1,6 +1,7 @@
 /* global $AppConfig */
-import QueryString from 'query-string';
 import Url from 'url';
+
+import QueryString from 'query-string';
 
 import {
 	getAppUsername,
