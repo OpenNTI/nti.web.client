@@ -1,26 +1,25 @@
-.PHONY: clean check test
+.PHONY: build clean check test
 
-
-LIBDIR = lib
+LIB = lib
 REPORTS = reports
 
-all: node_modules lib
+all: test build
 
 node_modules: package.json
-#	@rm -rf node_modules
-#	@npm install
-	@npm update
-	@touch $@
+	@rm -rf node_modules
+	@npm install
+#	@npm update
+#	@touch $@
 
 check:
 	@eslint --ext .js,.jsx ./src
 
 test: node_modules check
-	@karma start --single-run
+	@jest
 
 clean:
-	@rm -rf $(LIBDIR)
+	@rm -rf $(LIB)
 	@rm -rf $(REPORTS)
 
-lib: clean
-	@NODE_ENV=rollup rollup -c
+build:
+	@rollup -c

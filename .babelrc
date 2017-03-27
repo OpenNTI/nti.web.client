@@ -1,19 +1,29 @@
 {
 	"compact": false,
+	"sourceMaps": "both",
 	"env": {
 		"development": {
 			"presets": [
-				"es2015",
-				"stage-1"
-			]
-		},
-		"rollup": {
-			"presets": [
-				["es2015",{ "modules": false }],
+				["env", {
+					"targets": {
+						"browsers": ["> 1%", "last 2 versions"]
+					},
+					"modules": false
+				}],
 				"stage-1"
 			],
 			"plugins": [
 				"external-helpers"
+			]
+		},
+		"test": {
+			"presets": [
+				["env", {
+					"targets": {
+						"node": "current"
+					}
+				}],
+				"stage-1"
 			]
 		}
 	}
