@@ -8,13 +8,11 @@ all: test build
 node_modules: package.json
 	@rm -rf node_modules
 	@npm install
-#	@npm update
-#	@touch $@
 
 check:
 	@eslint --ext .js,.jsx ./src
 
-test: node_modules check
+test: node_modules clean check
 	@jest
 
 clean:
