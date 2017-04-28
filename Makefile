@@ -21,3 +21,4 @@ clean:
 
 build:
 	@rollup -c
+	@rollup -c -f cjs -o lib/cjs-index.js

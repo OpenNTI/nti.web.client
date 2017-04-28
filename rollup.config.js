@@ -6,7 +6,7 @@ import json from 'rollup-plugin-json';
 
 export default {
 	entry: 'src/index.js',
-	format: 'cjs',
+	format: 'es',
 	dest: 'lib/index.js',
 	sourceMap: true,
 	exports: 'named',

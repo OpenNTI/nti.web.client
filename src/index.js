@@ -7,6 +7,7 @@ import dataserver from 'nti-lib-interfaces';
 
 export * as User from './user';
 export ExternalLibraryManager from './ExternalLibraryManager';
+export * as TestUtils from './test-utils';
 
 
 
