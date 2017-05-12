@@ -80,11 +80,11 @@ export function decode (blob, strict) {
  * @param  {object} props  A dict with keys that will tell us what to do. (For
  *                         react components, this is the props object) If the
  *                         entity object is given, the name is ignored.
- * @param  {object} props.entity The full entiry object. No resolve willi be
+ * @param  {object} props.entity The full entiry object. No resolve will be
  *                               made, just used as if resolved.
  * @param  {object} props.entityId The entityId to resolve.
  * @param  {boolean} strict Passed to the decode method. If the encoded name
- *                          doesn't pass safty-checks, strict throws it out.
+ *                          doesn't pass safety-checks, strict throws it out.
  * @return {Promise} A promise that will resolve with the entity, or reject
  *                     with a reason for failure.
  */
