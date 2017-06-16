@@ -1,4 +1,5 @@
-/* global $AppConfig */
+/* global $AppConfig, spyOn */
+/* eslint-env jest */
 import Url from 'url';
 
 import QueryString from 'query-string';
@@ -64,7 +65,7 @@ describe('Client Interface', () => {
 	});
 
 
-	it('getServer', () => {
+	test ('getServer', () => {
 		const mock = mockInterface;
 		//In live code, the getServer returns an an instance of Interface (nti-lib-interfaces)
 		//
@@ -95,10 +96,10 @@ describe('Client Interface', () => {
 	});
 
 
-	it('getService', done => {
+	test ('getService', done => {
 		spyOn(mockInterface, 'getServiceDocument').and.callThrough();
 		const mockResult = getService();
-		const error = jasmine.createSpy();
+		const error = jest.fn();
 
 		delete $AppConfig.nodeService;
 		const result = getService();
@@ -123,18 +124,18 @@ describe('Client Interface', () => {
 	});
 
 
-	it('getServerURI', () => {
+	test ('getServerURI', () => {
 		expect(getServerURI()).toBe(mockServerURI);
 	});
 
 
-	it ('getAppUsername', () => {
+	test ('getAppUsername', () => {
 		expect(getAppUsername()).toBe($AppConfig.username);
 	});
 
 
-	it('getAppUser', done => {
-		const error = jasmine.createSpy();
+	test ('getAppUser', done => {
+		const error = jest.fn();
 		getAppUser()
 			.then(user => expect(user).toBe(mockUser))
 			.catch(error)
@@ -145,8 +146,8 @@ describe('Client Interface', () => {
 	});
 
 
-	it('getAppUserCommunities', done => {
-		const error = jasmine.createSpy('Error');
+	test ('getAppUserCommunities', done => {
+		const error = jest.fn('Error');
 		getAppUserCommunities()
 			.then(list => {
 				//In live code, the list will be instances of Community objects.
@@ -160,12 +161,12 @@ describe('Client Interface', () => {
 	});
 
 
-	it('getReturnURL', () => {
+	test ('getReturnURL', () => {
 		const returnto = 'http://localhost:8082/mobile/course/foobar';
 		const mock = {search: `?return=${encodeURIComponent(returnto)}`};
 
 		//We expect this to match initially.
-		expect(getReturnURL()).toBe((QueryString.parse(location.search) || {}).return);
+		expect(getReturnURL()).toBe((QueryString.parse(global.location.search) || {}).return);
 
 		//update to mock...
 		expect(getReturnURL(true, mock)).toBe(returnto);
@@ -173,17 +174,17 @@ describe('Client Interface', () => {
 
 		//reset
 		delete getReturnURL.value;
-		expect(getReturnURL()).toBe((QueryString.parse(location.search) || {}).return);
+		expect(getReturnURL()).toBe((QueryString.parse(global.location.search) || {}).return);
 	});
 
 
-	it('getSiteName', () => {
+	test ('getSiteName', () => {
 		const expectedSite = $AppConfig.siteName || (global.location || {}).hostname || 'default';
 		expect(getSiteName()).toBe(expectedSite);
 	});
 
 
-	it('getUserAgreementURI', () => {
+	test ('getUserAgreementURI', () => {
 		const uri = getUserAgreementURI();
 		const url = Url.parse(uri);
 
@@ -192,7 +193,7 @@ describe('Client Interface', () => {
 	});
 
 
-	it('isFlag', () => {
+	test ('isFlag', () => {
 		expect(isFlag('flagA')).toBe(false);
 		expect(isFlag('flagB')).toBe(true);
 		expect(isFlag('flagC')).toBe(true);
@@ -205,17 +206,17 @@ describe('Client Interface', () => {
 
 
 
-	it('getConfigFor', () => {
+	test ('getConfigFor', () => {
 		expect(getConfigFor('someConfig')).toBe($AppConfig.someConfig);
 	});
 
 
-	it('externalLibraries', () => {
+	test ('externalLibraries', () => {
 		expect(externalLibraries()).toBe($AppConfig['external-libraries']);
 	});
 
 
-	it('overrideAppUsername', () => {
+	test ('overrideAppUsername', () => {
 		const overridden = 'foobar!';
 		expect(getAppUsername()).toBe(mockUser.username);
 		overrideAppUsername(overridden);
@@ -223,7 +224,7 @@ describe('Client Interface', () => {
 	});
 
 
-	it('overrideConfigAndForceCurrentHost', () => {
+	test ('overrideConfigAndForceCurrentHost', () => {
 		expect($AppConfig.server).toBe(mockServerURI);
 		overrideConfigAndForceCurrentHost();
 

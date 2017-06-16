@@ -1,3 +1,5 @@
+/* globals spyOn */
+/* eslint-env jest */
 import {getDebugUsernameString, encode, decode, resolve} from '../user';
 
 describe('User utils', () => {
@@ -19,7 +21,7 @@ describe('User utils', () => {
 	});
 
 
-	it ('getDebugUsernameString', () => {
+	test ('getDebugUsernameString', () => {
 		const username = 'Foobar';
 		const entity = {Username: username};
 		const randomNonStringNonObject = () => {};
@@ -32,7 +34,7 @@ describe('User utils', () => {
 	});
 
 
-	it ('encode', () => {
+	test ('encode', () => {
 		const name = 'johnny appleseed';
 		const uriencoded = encodeURIComponent(name);
 		expect(encode(name)).toBe(uriencoded);
@@ -46,7 +48,7 @@ describe('User utils', () => {
 	});
 
 
-	it ('decode', () => {
+	test ('decode', () => {
 		const name = 'johnny appleseed';
 		const uriencoded = encodeURIComponent(name);
 
@@ -60,7 +62,7 @@ describe('User utils', () => {
 	});
 
 
-	it ('resolve', done => {
+	test ('resolve', done => {
 		const entityId = 'TestABC';
 		const entity = {Username: entityId};
 

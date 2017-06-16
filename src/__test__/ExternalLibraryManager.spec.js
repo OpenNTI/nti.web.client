@@ -1,12 +1,19 @@
+/* globals spyOn */
+/* eslint-env jest */
+import Logger from 'nti-util-logger';
+
 import Mixin, { //eslint-disable-line no-unused-vars
 	getSymbol,
 	appendToSingletonElement,
 	createElement
 } from '../ExternalLibraryManager';
 
-describe('External Library Manager (Mixin)', () => {
+const logger = Logger.get('ExternalLibrariesManager');
 
-	it ('getSymbol', () => {
+describe('External Library Manager (Mixin)', () => {
+	beforeEach(() => spyOn(logger, 'warn')); //suppress logger to output.
+
+	test ('getSymbol', () => {
 		const d = {value: '123'};
 		const o = {a: {b: {c:{d}}}};
 
@@ -15,7 +22,7 @@ describe('External Library Manager (Mixin)', () => {
 	});
 
 
-	it ('appendToSingletonElement', () => {
+	test ('appendToSingletonElement', () => {
 		const head = document.getElementsByTagName('head')[0];
 		const child = {};
 		spyOn(head, 'appendChild');
@@ -26,7 +33,7 @@ describe('External Library Manager (Mixin)', () => {
 	});
 
 
-	it ('createElement', () => {
+	test ('createElement', () => {
 		const props = {
 			id: 'foo',
 			name: 'bar',
