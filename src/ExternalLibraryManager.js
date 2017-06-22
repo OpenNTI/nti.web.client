@@ -79,7 +79,7 @@ export default {
 		const promises = [];
 
 		for (let url of urls) {
-			const id = `${forDep}-${url.replace(/[\/\\]/gi, '-')}`;
+			const id = `${forDep}-${url.replace(/[/\\]/gi, '-')}`;
 
 			if (!injected[id]) {
 				injected[id] = new Promise((fulfill, reject) => {
