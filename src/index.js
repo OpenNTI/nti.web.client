@@ -158,7 +158,7 @@ exposeGlobally(getServer, getService);
 /**
  * DANGER: Do not use in the applications!
  *
- * Used to stub out an non-authenticated config for Widgets.
+ * Used to stub out a non-authenticated config for Widgets.
  * See the History Landing page Gifting Widget
  * @return {void}
  */
