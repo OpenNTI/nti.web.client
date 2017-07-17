@@ -54,6 +54,6 @@ describe('External Library Manager (Mixin)', () => {
 
 	describe('Mixin', () => {
 		//TODO: test Mixin methods.
-		it('Needs Testing...', () => {});
+		test('Needs Testing...', () => {});
 	});
 });
