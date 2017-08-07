@@ -1,7 +1,8 @@
 /* global $AppConfig, spyOn */
 /* eslint-env jest */
 import Url from 'url';
-import QueryString from 'querystring';
+
+import QueryString from 'query-string';
 
 
 import {

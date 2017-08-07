@@ -31,7 +31,8 @@
   "license": "UNLICENSED",
   "dependencies": {
     "nti-lib-interfaces": "^1.0.0",
-    "nti-util-logger": "^1.0.0"
+    "nti-util-logger": "^1.0.0",
+    "query-string": "^5.0.0"
   },
   "devDependencies": {
     "nti-lib-scripts": "^1.0.10"
