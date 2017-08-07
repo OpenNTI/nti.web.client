@@ -1,8 +1,8 @@
 /* global $AppConfig */
 import Url from 'url';
+import QueryString from 'querystring';
 
 import Logger from 'nti-util-logger';
-import QueryString from 'query-string';
 import dataserver from 'nti-lib-interfaces';
 
 export * as User from './user';
