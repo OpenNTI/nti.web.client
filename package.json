@@ -36,6 +36,6 @@
     "query-string": "^5.0.0"
   },
   "devDependencies": {
-    "nti-lib-scripts": "^1.0.34"
+    "nti-lib-scripts": "^1.0.36"
   }
 }

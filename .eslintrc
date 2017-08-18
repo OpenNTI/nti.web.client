@@ -1,6 +1,3 @@
 {
-	"extends": "./node_modules/nti-lib-scripts/config/eslintrc.js",
-	"env": {
-		"browser": true
-	}
+	"extends": "./node_modules/nti-lib-scripts/config/eslintrc.js"
 }
