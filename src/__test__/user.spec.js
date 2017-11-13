@@ -57,7 +57,7 @@ describe('User utils', () => {
 		enableObfuscation();
 		expect(decode(uriencoded)).toBe(name);
 		expect(decode(uriencoded, true)).toBe(null);
-		expect(decode(encode(name)), true).toBe(name);
+		expect(decode(encode(name), true)).toBe(name);
 		expect(decode(encode(name))).toBe(name);
 	});
 
