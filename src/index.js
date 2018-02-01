@@ -68,6 +68,16 @@ export function getReturnURL (forceUpdate = false, location = global.location) {
 getReturnURL(); //capture the return on init.
 
 
+export default function resolveBasePath () {
+	if (typeof document === 'undefined') {
+		throw new Error('resolveBasePath() currently does not function for server-side rendering.');
+	}
+
+	//{basePath}/js/foobar.js, resolving '..' against it results in {basePath}
+	return Url.parse(Url.resolve(document.currentScript.src, '..')).pathname;
+}
+
+
 export function getServerURI () {
 	if (noConfig()) {
 		logger.error('utils:getServerURI() was called before config was defined.');
