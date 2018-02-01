@@ -1,4 +1,15 @@
 /* global $AppConfig */
+/**
+ * Main module entry point.
+ *
+ * Exports these modules on top of methods:
+ * {@link module:ExternalLibraryManager}
+ * {@link module:User}
+ * {@link module:TestUtils}
+ * @module index
+ */
+
+
 import Url from 'url';
 
 import Logger from 'nti-util-logger';
@@ -34,6 +45,11 @@ function noConfig () {
 }
 
 
+/**
+ * Get the username of the currently logged in user.
+ *
+ * @return {string} username
+ */
 export function getAppUsername () {
 	if (noConfig()) {
 		logger.error('utils:getAppUsername() was called before config was defined.');
@@ -42,16 +58,41 @@ export function getAppUsername () {
 }
 
 
+
+/**
+ * Get the currently logged in user.
+ *
+ * @async
+ * @return {Promise<User>} user
+ */
 export function getAppUser () {
 	return getService().then(s=> s.getAppUser());
 }
 
 
+
+/**
+ * Resolve the communities the current user is a part of.
+ *
+ * @async
+ * @param  {boolean} excludeGroups Filter out "Groups"
+ * @return {Promise<Entity[]>}               [description]
+ */
 export function getAppUserCommunities (excludeGroups) {
 	return getAppUser().then(x => x.getCommunities(excludeGroups));
 }
 
 
+/**
+ * Get the return url. If we need to redirect back to someehere a url will be present.
+ * This captures the value on first call and retains it for future calls. (So that when
+ * routes change we still have it)
+ *
+ * @param  {boolean} [forceUpdate=false]          Force recapture of the return url value if already set.
+ * @param  {Location}  [location=global.location] Supply a custom reference to a Location interface.
+ * @param  {string} location.search               A query-string with a 'return' key/value pair.
+ * @return {string}                              The return url.
+ */
 export function getReturnURL (forceUpdate = false, location = global.location) {
 	let me = getReturnURL;
 
@@ -68,16 +109,35 @@ export function getReturnURL (forceUpdate = false, location = global.location) {
 getReturnURL(); //capture the return on init.
 
 
-export default function resolveBasePath () {
+/**
+ * Utility for one-offs... attempt to resolve the basepath.
+ * This shouldn't be needed for full applications served by web-service.
+ *
+ * @deprecated
+ * @return {string} the basePath
+ */
+export function resolveBasePath () {
 	if (typeof document === 'undefined') {
 		throw new Error('resolveBasePath() currently does not function for server-side rendering.');
 	}
 
+	const {origin, scripts, currentScript: current} = document;
+	const ourScripts = x => x.src.startsWith(origin) && /\/js\//.test(x.src);
+
+	const el = current
+		|| document.getElementById('main-bundle')
+		|| Array.from(scripts).filter(ourScripts).pop(); //The main is generally the last.
+
 	//{basePath}/js/foobar.js, resolving '..' against it results in {basePath}
-	return Url.parse(Url.resolve(document.currentScript.src, '..')).pathname;
+	return !el ? './' : Url.parse(Url.resolve(el.src, '..')).pathname;
 }
 
 
+/**
+ * Get the dataserver endpoint url.
+ *
+ * @return {string} The url where the dataserver (api) endpoint is.
+ */
 export function getServerURI () {
 	if (noConfig()) {
 		logger.error('utils:getServerURI() was called before config was defined.');
@@ -86,6 +146,10 @@ export function getServerURI () {
 }
 
 
+/**
+ * Return the name of the current `site`.
+ * @return {string} site-name
+ */
 export function getSiteName () {
 	//This can only return a value on the client, on the server it currently returns `undefined`.
 	if (typeof $AppConfig !== 'undefined') {
@@ -94,11 +158,22 @@ export function getSiteName () {
 }
 
 
+/**
+ * The url to fetch the user agreement data from.
+ *
+ * @return {string} user-agreement api endpoint.
+ */
 export function getUserAgreementURI () {
 	return `${$AppConfig.basepath}api/user-agreement/view`;
 }
 
 
+/**
+ * Feature flag test function. Use this function to test if your feature is enabled or not.
+ *
+ * @param  {string}  flagName Feature/flag name.
+ * @return {boolean}          True if the feature is enabled.
+ */
 export function isFlag (flagName) {
 	if (noConfig()) {
 		logger.error('utils:isFlag() was called before config was defined.');
@@ -113,19 +188,34 @@ export function isFlag (flagName) {
 }
 
 
+/**
+ * Get the config value for a given key.
+ *
+ * @param  {string} key The key in the config.
+ * @return {*}     The value at the key, or an empty object.
+ */
 export function getConfigFor (key) {
+	// TODO: handle key.paths for deep key values.
 	return $AppConfig[key] || {};
 }
 
 
+/**
+ * Gets the external-libraries block. External libraries are loaded on demand.
+ *
+ * @return {Object} A mapping of external libraries
+ * @see {@link module:ExternalLibraryManager}
+ */
 export function externalLibraries () {
 	return getConfigFor('external-libraries');
 }
 
 
 /**
+ * This is for low-level (or anonymous/non-authenticated) work ONLY.
+ *
+ * @private
  * @returns {Interface} the shared instance of the server interface.
- * NOTICE: This is for low-level (or anonymous/non-authenticated) work ONLY.
  */
 export function getServer () {
 	if (noConfig()) {
@@ -150,7 +240,8 @@ export function getServer () {
 
 
 /**
- * @returns {Promise} a promise that fulfills with the service descriptor.
+ * @async
+ * @returns {Promise<Service>} a promise that fulfills with the service descriptor.
  */
 export function getService () {
 	if (noConfig()) {
@@ -170,6 +261,7 @@ exposeGlobally(getServer, getService);
  *
  * Used to stub out a non-authenticated config for Widgets.
  * See the History Landing page Gifting Widget
+ *
  * @return {void}
  */
 export function installAnonymousService () {
@@ -185,14 +277,28 @@ export function installAnonymousService () {
 }
 
 
-export function overrideAppUsername (str) {
+/**
+ * Force the username to be the given string.
+ * Primarily used for unit-tests.
+ *
+ * @param  {string} name The name you want the username to be.
+ * @returns {void}
+ */
+export function overrideAppUsername (name) {
 	if (noConfig()) {
 		logger.error('utils:overrideAppUsername() was called before config was defined.');
 	}
-	$AppConfig.username = str;
+	$AppConfig.username = name;
 }
 
 
+/**
+ * The server url location is configured from the perspective of the node-service. Client-side,
+ * we need to rewrite it to point back to the domain that we were served from. Call this once
+ * before any other calls to the dataserver in the main entry point.
+ *
+ * @return {void}
+ */
 export function overrideConfigAndForceCurrentHost () {
 	if (noConfig()) {
 		logger.error('utils:overrideConfigAndForceCurrentHost() was called before config was defined.');

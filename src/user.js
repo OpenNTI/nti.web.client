@@ -1,3 +1,13 @@
+/**
+ * Utilities to deal with user entity objects and their IDs.
+
+ * Access by named export on `nti-web-client`:
+ * ```js
+ * import {User} from 'nti-web-client';
+ * ```
+ * @module User
+ */
+
 import {getService, isFlag} from './';
 
 const FLAG = 'obfuscate-usernames';
@@ -5,6 +15,13 @@ const FLAG = 'obfuscate-usernames';
 const SALT = '!@';
 
 
+/**
+ * This is a macro used to get the username for any entity.
+ * Used primarily to decorate a `data` attribute on an element that displays the user's display name.
+ *
+ * @param  {string|Entity} entity The userId (name) or model
+ * @return {string}        The username
+ */
 export function getDebugUsernameString (entity) {
 	if (!isFlag(FLAG)) {
 		return void 0;
@@ -17,11 +34,11 @@ export function getDebugUsernameString (entity) {
 		|| 'Unknown';
 }
 
+
 /**
  * URL encodes username (and if the site is configured to hide usernames, it obfuscates them too)
  *
- * @param {string} username The username to encode.
- *
+ * @param {string} username The username to encode. *
  * @return {string} encoded username
  */
 export function encode (username) {

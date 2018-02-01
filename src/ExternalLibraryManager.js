@@ -45,9 +45,26 @@ export function createElement (document, tag, props) {
 	return el;
 }
 
-
+/**
+ * This module is intended to be mixed into a component, but may be used directly.
+ *
+ * Access by named export on `nti-web-client`:
+ * ```js
+ * import {ExternalLibraryManager} from 'nti-web-client';
+ * ```
+ * @module ExternalLibraryManager
+ */
 export default {
 
+
+	/**
+	 * Reuses or loads external libraries. It will wait for them to load & initialize based
+	 * on a predicate defined in the external libraries entry.
+	 *
+	 * @async
+	 * @param  {string|string[]} id The key or keys in the external-libraries object.
+	 * @return {Promise<string|string[]>} Resolves when all the scripts have loaded and their predicates are satisfied.
+	 */
 	ensureExternalLibrary (id) {
 		if (Array.isArray(id)) {
 			return Promise.all(id.map(x => this.ensureExternalLibrary(x)));
@@ -75,6 +92,14 @@ export default {
 	},
 
 
+	/**
+	 * Injects a stylesheet into the dom.
+	 *
+	 * @async
+	 * @param  {string[]} urls Urls for stylesheets to inject
+	 * @param  {string} forDep external-libraries id (key in object)
+	 * @return {Promise<Link[]>} fulfills with an array of link elements that represent the individual stylesheets
+	 */
 	injectStyles (urls, forDep) {
 		const promises = [];
 
@@ -119,6 +144,15 @@ export default {
 	},
 
 
+	/**
+	 * Inject a script into the document. Waits for it to load & initialize.
+	 *
+	 * @async
+	 * @param  {string} scriptUrl            The url of the script
+	 * @param  {string} shouldDefineSymbol   A key-path expression that should evaluate to truthy once the script is loaded.
+	 * @param  {boolean} invokeDefinedSymbol If true, the defined symbol is assumed to be a function and will be invoked.
+	 * @return {Promise<Script>}             The script element for this injected script.
+	 */
 	injectScript (scriptUrl, shouldDefineSymbol, invokeDefinedSymbol) {
 
 		if (!injected[shouldDefineSymbol]) {
