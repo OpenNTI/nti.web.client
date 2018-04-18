@@ -1,4 +1,4 @@
-import Logger from 'nti-util-logger';
+import Logger from '@nti/util-logger';
 
 import {externalLibraries} from './';
 
@@ -48,9 +48,9 @@ export function createElement (document, tag, props) {
 /**
  * This module is intended to be mixed into a component, but may be used directly.
  *
- * Access by named export on `nti-web-client`:
+ * Access by named export on `@nti/web-client`:
  * ```js
- * import {ExternalLibraryManager} from 'nti-web-client';
+ * import {ExternalLibraryManager} from '@nti/web-client';
  * ```
  * @module ExternalLibraryManager
  */

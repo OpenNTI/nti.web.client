@@ -1,6 +1,6 @@
 /* globals spyOn */
 /* eslint-env jest */
-import Logger from 'nti-util-logger';
+import Logger from '@nti/util-logger';
 
 import Mixin, { //eslint-disable-line no-unused-vars
 	getSymbol,

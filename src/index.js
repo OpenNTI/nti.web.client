@@ -12,8 +12,8 @@
 
 import Url from 'url';
 
-import Logger from 'nti-util-logger';
-import dataserver from 'nti-lib-interfaces';
+import Logger from '@nti/util-logger';
+import dataserver from '@nti/lib-interfaces';
 import QueryString from 'query-string';
 
 export * as User from './user';

@@ -1,14 +1,14 @@
 /**
  * Utilities to deal with user entity objects and their IDs.
 
- * Access by named export on `nti-web-client`:
+ * Access by named export on `@nti/web-client`:
  * ```js
- * import {User} from 'nti-web-client';
+ * import {User} from '@nti/web-client';
  * ```
  * @module User
  */
 
-import {getService, isFlag} from './';
+import {getService, isFlag} from './index';
 
 const FLAG = 'obfuscate-usernames';
 

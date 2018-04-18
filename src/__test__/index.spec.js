@@ -68,7 +68,7 @@ describe('Client Interface', () => {
 
 	test ('getServer', () => {
 		const mock = mockInterface;
-		//In live code, the getServer returns an an instance of Interface (nti-lib-interfaces)
+		//In live code, the getServer returns an an instance of Interface (@nti/lib-interfaces)
 		//
 		//But... because we mocked it, the function will return the mock.
 		expect(getServer()).toBe(mock);

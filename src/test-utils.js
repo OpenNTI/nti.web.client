@@ -1,7 +1,7 @@
 /**
- * Access by named export on `nti-web-client`:
+ * Access by named export on `@nti/web-client`:
  * ```js
- * import {TestUtils} from 'nti-web-client';
+ * import {TestUtils} from '@nti/web-client';
  * ```
  * @module TestUtils
  */
