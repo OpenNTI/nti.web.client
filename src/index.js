@@ -182,7 +182,7 @@ export function isFlag (flagName) {
 	let site = getSiteName();
 	let {flags = {}} = $AppConfig;
 
-	flags = Object.assign({}, flags, flags[site] || {});
+	flags = { ...flags, ...flags[site] || {}};
 
 	return !!flags[flagName];
 }
