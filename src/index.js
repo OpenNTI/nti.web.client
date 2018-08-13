@@ -377,8 +377,7 @@ export function initErrorReporter () {
 
 	airbrake.addFilter(notice => (
 		Object.assign(notice.context, {
-			environment: global.location.host,
-			siteName: siteName,
+			environment: siteName,
 			client: appName,
 			version: appVersion,
 			user: {
