@@ -362,20 +362,28 @@ export function initErrorReporter () {
 	// 		projectKey: string
 
 	airbrake = new airbrakeJs.Client({
-		environment: $AppConfig,
 		host: 'https://errors.nextthought.io',
 		projectId: 1,
 		...config,
 	});
 
+	function getLocale () {
+		try {
+			return (new Intl.DateTimeFormat()).resolvedOptions();
+		} catch (e) {
+			return {};
+		}
+	}
+
 	airbrake.addFilter(notice => (
 		Object.assign(notice.context, {
-			environment: siteName,
+			environment: global.location.host,
+			siteName: siteName,
 			client: appName,
 			version: appVersion,
 			user: {
 				id: getAppUsername(),
-				name: getAppUsername()
+				...getLocale()
 			}
 		}),
 		//notice.params = QueryString.parse(global.location.search || ''),
