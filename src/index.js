@@ -1,4 +1,4 @@
-/* global $AppConfig */
+/* global $AppConfig airbrakeJs*/
 /**
  * Main module entry point.
  *
@@ -314,4 +314,95 @@ export function overrideConfigAndForceCurrentHost () {
 	}
 
 	$AppConfig.server = forceHost($AppConfig.server);
+}
+
+
+// module private variable
+let airbrake = null;
+
+
+/**
+ * Initialize the error reporter
+ *
+ * @method initErrorReporter
+ * @return {void}
+ */
+export function initErrorReporter () {
+	const empty = x => !x || x === '' || x.length === 0;
+	if (noConfig()) {
+		logger.error('utils:initErrorReporter() was called before config was defined.');
+	}
+
+	if (typeof airbrakeJs === 'undefined') {
+		logger.warn('utils:initErrorReporter() Airbrake is not defined. Did the script/cdn fail?');
+		return;
+	}
+
+	if (airbrake) {
+		logger.warn('utils:initErrorReporter() Airbrake initialized?');
+		return;
+	}
+
+	const {airbrake: config, appName, appVersion, siteName} = $AppConfig;
+
+
+	if (typeof config !== 'object') {
+		logger.error('utils:initErrorReporter() Airbrake config missing in app config!');
+		return;
+	}
+
+	if (empty(config.projectKey)) {
+		logger.error('utils:initErrorReporter() missing airbrake projectKey config property!');
+		return;
+	}
+
+	// We're expecting these properties:
+	// 		host: string **optional**
+	// 		projectId: integer **optional**
+	// 		projectKey: string
+
+	airbrake = new airbrakeJs.Client({
+		environment: $AppConfig,
+		host: 'https://errors.nextthought.io',
+		projectId: 1,
+		...config,
+	});
+
+	airbrake.addFilter(notice => (
+		Object.assign(notice.context, {
+			environment: siteName,
+			client: appName,
+			version: appVersion,
+			user: {
+				id: getAppUsername(),
+				name: getAppUsername()
+			}
+		}),
+		//notice.params = QueryString.parse(global.location.search || ''),
+		notice
+	));
+}
+
+
+/**
+ * get the instance of the error reporter
+ *
+ * @method getErrorReporter
+ * @return {Airbrake.Client} The Airbrake Client instance. See https://airbrake.io
+ */
+export function getErrorReporter () {
+	return airbrake;
+}
+
+
+/**
+ * Sends the error to our error log.
+ *
+ * @method reportError
+ * @param  {object}    notice The error descriptor. Should have at least an 'error' key.
+ * @return {void}
+ */
+export function reportError (notice) {
+	if (!airbrake) { return; }
+	airbrake.notify(notice);
 }
