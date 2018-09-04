@@ -12,6 +12,7 @@
 
 import Url from 'url';
 
+import { dispatch } from '@nti/lib-dispatcher';
 import Logger from '@nti/util-logger';
 import dataserver from '@nti/lib-interfaces';
 import QueryString from 'query-string';
@@ -226,6 +227,9 @@ export function getServer () {
 	if (!fn.interface) {
 		let s = $AppConfig.nodeInterface;
 		if (!s) {
+			if (!$AppConfig.dispatch) {
+				Object.assign($AppConfig, { dispatch });
+			}
 			let i = dataserver($AppConfig);
 
 			s = i.interface;
