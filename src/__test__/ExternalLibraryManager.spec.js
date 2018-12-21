@@ -48,7 +48,7 @@ describe('External Library Manager (Mixin)', () => {
 
 		const result = createElement(doc, tagName, props);
 
-		expect(result).toEqual(Object.assign({tagName}, props));
+		expect(result).toEqual({tagName, ...props});
 	});
 
 
