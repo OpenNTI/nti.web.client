@@ -35,6 +35,7 @@
     "@nti/lib-dispatcher": "^1.2.0",
     "@nti/lib-interfaces": "^1.0.0",
     "@nti/util-logger": "^1.0.0",
+    "cross-fetch": "^3.0.0",
     "airbrake-js": "^1.4.4",
     "query-string": "^6.1.0"
   },
