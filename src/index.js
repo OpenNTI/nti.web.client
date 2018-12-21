@@ -1,4 +1,4 @@
-/* global $AppConfig airbrakeJs*/
+/* global $AppConfig */
 /**
  * Main module entry point.
  *
@@ -15,7 +15,7 @@ import Url from 'url';
 import { dispatch } from '@nti/lib-dispatcher';
 import Logger from '@nti/util-logger';
 import dataserver from '@nti/lib-interfaces';
-import airbrakeJs from 'airbrake-js';
+import AirbrakeClient from 'airbrake-js';
 import QueryString from 'query-string';
 
 export * as User from './user';
@@ -338,11 +338,6 @@ export function initErrorReporter () {
 		logger.error('utils:initErrorReporter() was called before config was defined.');
 	}
 
-	if (typeof airbrakeJs === 'undefined') {
-		logger.warn('utils:initErrorReporter() Airbrake is not defined. Did the script/cdn fail?');
-		return;
-	}
-
 	if (airbrake) {
 		logger.warn('utils:initErrorReporter() Airbrake initialized?');
 		return;
@@ -366,7 +361,7 @@ export function initErrorReporter () {
 	// 		projectId: integer **optional**
 	// 		projectKey: string
 
-	airbrake = new airbrakeJs.Client({
+	airbrake = new AirbrakeClient({
 		host: 'https://errors.nextthought.io',
 		projectId: 1,
 		...config,
