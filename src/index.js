@@ -15,6 +15,7 @@ import Url from 'url';
 import { dispatch } from '@nti/lib-dispatcher';
 import Logger from '@nti/util-logger';
 import dataserver from '@nti/lib-interfaces';
+import airbrakeJs from 'airbrake-js';
 import QueryString from 'query-string';
 
 export * as User from './user';
