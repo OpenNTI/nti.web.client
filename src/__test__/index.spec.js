@@ -9,6 +9,7 @@ import {
 	getAppUsername,
 	getAppUser,
 	getAppUserCommunities,
+	getAppUserScopedStorage,
 	getReturnURL,
 	getServerURI,
 	getSiteName,
@@ -159,6 +160,17 @@ describe('Client Interface', () => {
 				expect(error).not.toHaveBeenCalled();
 				done();
 			});
+	});
+
+	test('getAppUserScopedStorage', () => {
+		const storage = getAppUserScopedStorage();
+
+		expect(storage.getItem).toBeDefined();
+		expect(storage.setItem).toBeDefined();
+		expect(storage.removeItem).toBeDefined();
+		expect(storage.scope).toBeDefined();
+
+		expect(getAppUserScopedStorage.cacheScope).toBeDefined();
 	});
 
 

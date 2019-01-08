@@ -15,6 +15,7 @@ import Url from 'url';
 import { dispatch } from '@nti/lib-dispatcher';
 import Logger from '@nti/util-logger';
 import dataserver from '@nti/lib-interfaces';
+import Storage from '@nti/web-storage';
 import AirbrakeClient from 'airbrake-js';
 import QueryString from 'query-string';
 
@@ -82,6 +83,19 @@ export function getAppUser () {
  */
 export function getAppUserCommunities (excludeGroups) {
 	return getAppUser().then(x => x.getCommunities(excludeGroups));
+}
+
+
+/**
+ * Return an interface into local storage the "scopes" all
+ * the values to the username.
+ *
+ * @return {Object}      storage interface
+ */
+export function getAppUserScopedStorage () {
+	getAppUserScopedStorage.cacheScope = getAppUserScopedStorage.cachedScope || btoa(getAppUsername());
+
+	return Storage.scope(getAppUserScopedStorage.cacheScope);
 }
 
 
