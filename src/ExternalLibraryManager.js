@@ -16,7 +16,7 @@ export function getSymbol (scope, expression) {
 		scope = scope[prop];
 	}
 
-	const leafExists = scope && scope.hasOwnProperty(path[0]);
+	const leafExists = scope && Object.prototype.hasOwnProperty.call(scope,path[0]);
 
 	if (!scope || path.length > 1 || !leafExists) {
 		if (!leafExists) {
