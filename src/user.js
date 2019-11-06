@@ -8,7 +8,7 @@
  * @module User
  */
 
-import {getService, isFlag} from './index';
+import {getAppUsername, getService, isFlag} from './index';
 
 const FLAG = 'obfuscate-usernames';
 
@@ -105,9 +105,9 @@ export function decode (blob, strict) {
  * @return {Promise} A promise that will resolve with the entity, or reject
  *                     with a reason for failure.
  */
-export function resolve ({entity, entityId}, strict = false) {
+export function resolve ({me, entity, entityId}, strict = false) {
 
-	entity = entity || entityId;
+	entity = me ? getAppUsername() : (entity || entityId);
 
 	let promise = !entity
 		? Promise.reject('No Entity')
