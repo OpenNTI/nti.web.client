@@ -20,7 +20,7 @@ import AirbrakeClient from 'airbrake-js';
 import QueryString from 'query-string';
 
 export * as User from './user';
-export ExternalLibraryManager from './ExternalLibraryManager';
+export { default as ExternalLibraryManager } from './ExternalLibraryManager';
 export * as TestUtils from './test-utils';
 
 
