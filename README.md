@@ -1,3 +1,6 @@
+
+![Build Status](https://github.com/NextThought/nti.web.client/workflows/Tests/badge.svg)
+
 nti-web-client
 ==============
 
