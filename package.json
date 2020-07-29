@@ -1,6 +1,6 @@
 {
   "name": "@nti/web-client",
-  "version": "1.14.0-alpha",
+  "version": "1.14.0",
   "description": "The client interfaces for the web service.",
   "main": ".index.js",
   "module": "src/index.js",
