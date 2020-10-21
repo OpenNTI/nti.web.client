@@ -100,7 +100,7 @@ export function getAppUserScopedStorage () {
 
 
 /**
- * Get the return url. If we need to redirect back to someehere a url will be present.
+ * Get the return url. If we need to redirect back to somewhere a url will be present.
  * This captures the value on first call and retains it for future calls. (So that when
  * routes change we still have it)
  *
