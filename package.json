@@ -29,14 +29,14 @@
   "author": "nextthought",
   "license": "UNLICENSED",
   "dependencies": {
+    "@airbrake/browser": "^1.4.1",
     "@nti/lib-dispatcher": "NextThought/nti.lib.dispatcher",
     "@nti/lib-interfaces": "NextThought/nti.lib.interfaces",
     "@nti/util-logger": "NextThought/nti.util.logger",
     "@nti/web-storage": "NextThought/nti.web.storage",
-    "airbrake-js": "^1.4.4",
     "cross-fetch": "^3.0.0",
-    "query-string": "^6.1.0",
-    "esm": "^3.2.25"
+    "esm": "^3.2.25",
+    "query-string": "^6.1.0"
   },
   "devDependencies": {
     "@nti/lib-scripts": "^2.0.0"

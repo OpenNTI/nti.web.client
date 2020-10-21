@@ -12,11 +12,11 @@
 
 import Url from 'url';
 
+import { Notifier } from '@airbrake/browser';
 import { dispatch } from '@nti/lib-dispatcher';
 import Logger from '@nti/util-logger';
 import dataserver from '@nti/lib-interfaces';
 import Storage from '@nti/web-storage';
-import AirbrakeClient from 'airbrake-js';
 import QueryString from 'query-string';
 
 export * as User from './user';
@@ -346,7 +346,7 @@ let airbrake = null;
  * @method initErrorReporter
  * @return {void}
  */
-export function initErrorReporter () {
+export async function initErrorReporter () {
 	const empty = x => !x || x === '' || x.length === 0;
 	if (noConfig()) {
 		logger.error('utils:initErrorReporter() was called before config was defined.');
@@ -375,7 +375,8 @@ export function initErrorReporter () {
 	// 		projectId: integer **optional**
 	// 		projectKey: string
 
-	airbrake = new AirbrakeClient({
+
+	airbrake = new Notifier({
 		host: 'https://errors.nextthought.io',
 		projectId: 1,
 		...config,
