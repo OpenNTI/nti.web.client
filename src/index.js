@@ -10,8 +10,6 @@
  */
 
 
-import Url from 'url';
-
 import { Notifier } from '@airbrake/browser';
 import { dispatch } from '@nti/lib-dispatcher';
 import Logger from '@nti/util-logger';
@@ -137,15 +135,18 @@ export function resolveBasePath () {
 		throw new Error('resolveBasePath() currently does not function for server-side rendering.');
 	}
 
-	const {origin, scripts, currentScript: current} = document;
+	const {defaultView: {location: {origin}}, scripts, currentScript} = document;
 	const ourScripts = x => x.src.startsWith(origin) && /\/js\//.test(x.src);
 
-	const el = current
+	// Prefer the current script
+	const el = currentScript
+		// Fallback to an id,
 		|| document.getElementById('main-bundle')
-		|| Array.from(scripts).filter(ourScripts).pop(); //The main is generally the last.
+		// Then, if all that fails, the js bundle is generally the last.
+		|| Array.from(scripts).filter(ourScripts).pop();
 
 	//{basePath}/js/foobar.js, resolving '..' against it results in {basePath}
-	return !el ? './' : Url.parse(Url.resolve(el.src, '..')).pathname;
+	return !el ? './' : (new URL('..', el.src, '..')).pathname;
 }
 
 
@@ -324,12 +325,12 @@ export function overrideConfigAndForceCurrentHost () {
 	}
 
 	function forceHost (s) {
+		const { location } = global;
 		//Force our config to always point to our server...(client side)
-		let url = Url.parse(s);
-		let {host, hostname, protocol, port} = global.location;
-		Object.assign(url, {url, host, hostname, protocol, port});
-
-		return url.format();
+		let url = new URL(s, location.href);
+		let {hostname, protocol, port} = location;
+		Object.assign(url, {hostname, protocol, port});
+		return url.toString();
 	}
 
 	$AppConfig.server = forceHost($AppConfig.server);
