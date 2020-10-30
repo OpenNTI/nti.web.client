@@ -201,6 +201,10 @@ export function isFlag (flagName) {
 
 	flags = { ...flags, ...flags[site] || {}};
 
+	for(const flag of (global.localStorage?.flags || '').split(/,\w*/)) {
+		flags[flag] = true;
+	}
+
 	return !!flags[flagName];
 }
 
