@@ -148,7 +148,7 @@ export function resolveBasePath () {
 		|| Array.from(scripts).filter(ourScripts).pop();
 
 	//{basePath}/js/foobar.js, resolving '..' against it results in {basePath}
-	return !el ? './' : (new URL('..', el.src, '..')).pathname;
+	return !el ? '/' : (new URL('..', el.src, '..')).pathname;
 }
 
 
