@@ -124,10 +124,12 @@ getReturnURL(); //capture the return on init.
 
 
 /**
- * Utility for one-offs... attempt to resolve the basepath.
- * This shouldn't be needed for full applications served by web-service.
+ * Utility to resolve the basepath for the bootstrap processes.
  *
- * @deprecated
+ * NOTE: This shouldn't be needed in general code/components
+ * except in just a few places... if you need this, please ask
+ * the team if there is a better way.
+ *
  * @return {string} the basePath
  */
 export function resolveBasePath () {
