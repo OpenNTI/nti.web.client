@@ -34,7 +34,6 @@
     "@nti/lib-interfaces": "NextThought/nti.lib.interfaces",
     "@nti/util-logger": "NextThought/nti.util.logger",
     "@nti/web-storage": "NextThought/nti.web.storage",
-    "cross-fetch": "^3.0.0",
     "esm": "^3.2.25"
   },
   "devDependencies": {
