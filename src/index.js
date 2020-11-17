@@ -217,11 +217,21 @@ export function isFlag (flagName) {
  * @param  {string} key The key in the config.
  * @return {*}     The value at the key, or an empty object.
  */
-export function getConfigFor (key) {
+export function getConfig (key) {
 	// TODO: handle key.paths for deep key values.
 	return $AppConfig[key] || {};
 }
 
+/**
+ * Get the config value for a given key.
+ *
+ * @deprecated use getConfig instead
+ * @param  {string} key The key in the config.
+ * @return {*}     The value at the key, or an empty object.
+ */
+export function getConfigFor (key) {
+	return getConfig(key);
+}
 
 /**
  * Gets the external-libraries block. External libraries are loaded on demand.
@@ -230,7 +240,7 @@ export function getConfigFor (key) {
  * @see {@link module:ExternalLibraryManager}
  */
 export function externalLibraries () {
-	return getConfigFor('external-libraries');
+	return getConfig('external-libraries');
 }
 
 

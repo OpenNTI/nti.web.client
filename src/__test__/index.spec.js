@@ -15,7 +15,7 @@ import {
 	getSiteName,
 	getUserAgreementURI,
 	isFlag,
-	getConfigFor,
+	getConfig,
 	externalLibraries,
 	getServer,
 	getService,
@@ -219,8 +219,8 @@ describe('Client Interface', () => {
 
 
 
-	test ('getConfigFor', () => {
-		expect(getConfigFor('someConfig')).toBe($AppConfig.someConfig);
+	test ('getConfig', () => {
+		expect(getConfig('someConfig')).toBe($AppConfig.someConfig);
 	});
 
 
