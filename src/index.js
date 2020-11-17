@@ -216,8 +216,15 @@ export function isFlag (flagName) {
  * @return {*}     The value at the key, or an empty object.
  */
 export function getConfig (key) {
-	// TODO: handle key.paths for deep key values.
-	return $AppConfig[key] || {};
+	const path = key ? key.split('.') : [];
+	let value = key ? $AppConfig : undefined;
+
+	while (path.length > 0 && value) {
+		key = path.shift();
+		value = value[key];
+	}
+
+	return value || {};
 }
 
 /**
