@@ -217,7 +217,7 @@ export function isFlag (flagName) {
  */
 export function getConfig (key) {
 	const path = key ? key.split('.') : [];
-	let value = key ? $AppConfig : undefined;
+	let value = key ? global.$AppConfig : undefined;
 
 	while (path.length > 0 && value) {
 		key = path.shift();
