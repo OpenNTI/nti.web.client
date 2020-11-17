@@ -1,9 +1,5 @@
 /* global $AppConfig, spyOn */
 /* eslint-env jest */
-import Url from 'url';
-
-import QueryString from 'query-string';
-
 
 import {
 	getAppUsername,
@@ -50,6 +46,7 @@ describe('Client Interface', () => {
 			siteName: 'Tests',
 			server: mockServerURI,
 			someConfig: {},
+			basepath: '/app/',
 			username: mockUser.username,
 			nodeInterface: mockInterface,
 			nodeService: mockService,
@@ -175,19 +172,19 @@ describe('Client Interface', () => {
 
 
 	test ('getReturnURL', () => {
-		const returnto = 'http://localhost:8082/mobile/course/foobar';
-		const mock = {search: `?return=${encodeURIComponent(returnto)}`};
+		const returnTo = 'http://localhost:8082/mobile/course/foobar';
+		const mock = {search: `?return=${encodeURIComponent(returnTo)}`};
 
 		//We expect this to match initially.
-		expect(getReturnURL()).toBe((QueryString.parse(global.location.search) || {}).return);
+		expect(getReturnURL()).toBeUndefined();
 
 		//update to mock...
-		expect(getReturnURL(true, mock)).toBe(returnto);
-		expect(getReturnURL()).toBe(returnto);
+		expect(getReturnURL(true, mock)).toBe(returnTo);
+		expect(getReturnURL()).toBe(returnTo);
 
 		//reset
 		delete getReturnURL.value;
-		expect(getReturnURL()).toBe((QueryString.parse(global.location.search) || {}).return);
+		expect(getReturnURL()).toBeUndefined();
 	});
 
 
@@ -199,10 +196,8 @@ describe('Client Interface', () => {
 
 	test ('getUserAgreementURI', () => {
 		const uri = getUserAgreementURI();
-		const url = Url.parse(uri);
-
-		expect(url).toBeTruthy();
 		expect(uri).toBeTruthy();
+		expect(() => new URL(uri)).not.toThrow();
 	});
 
 
@@ -243,11 +238,11 @@ describe('Client Interface', () => {
 
 		function forceHost (s) {
 			//Force our config to always point to our server...(client side)
-			let url = Url.parse(s);
+			let url = new URL(s, 'x:/');
 			let {host, hostname, protocol, port} = global.location;
 			Object.assign(url, {url, host, hostname, protocol, port});
 
-			return url.format();
+			return url.toString();
 		}
 
 		expect($AppConfig.server).toBe(forceHost(mockServerURI));

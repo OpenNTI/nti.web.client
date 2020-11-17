@@ -15,7 +15,6 @@ import { dispatch } from '@nti/lib-dispatcher';
 import Logger from '@nti/util-logger';
 import dataserver from '@nti/lib-interfaces';
 import Storage from '@nti/web-storage';
-import QueryString from 'query-string';
 
 export * as User from './user';
 export { default as ExternalLibraryManager } from './ExternalLibraryManager';
@@ -111,9 +110,8 @@ export function getReturnURL (forceUpdate = false, location = global.location) {
 	let me = getReturnURL;
 
 	if (!me.value || forceUpdate) {
-		let loc = location || {};
-		loc = (QueryString.parse(loc.search) || {}).return;
-		if (loc) {
+		const loc = new URLSearchParams(location?.search).get('return');
+		if (loc != null) {
 			me.value = loc;
 		}
 	}
@@ -183,7 +181,7 @@ export function getSiteName () {
  * @return {string} user-agreement api endpoint.
  */
 export function getUserAgreementURI () {
-	return `${$AppConfig.basepath}api/user-agreement/view`;
+	return new URL(`${$AppConfig.basepath}api/user-agreement/view`, global.location).toString();
 }
 
 

@@ -35,8 +35,7 @@
     "@nti/util-logger": "NextThought/nti.util.logger",
     "@nti/web-storage": "NextThought/nti.web.storage",
     "cross-fetch": "^3.0.0",
-    "esm": "^3.2.25",
-    "query-string": "^6.1.0"
+    "esm": "^3.2.25"
   },
   "devDependencies": {
     "@nti/lib-scripts": "^2.0.0"
