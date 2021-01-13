@@ -232,20 +232,44 @@ describe('Client Interface', () => {
 	});
 
 
-	test ('overrideConfigAndForceCurrentHost', () => {
-		expect($AppConfig.server).toBe(mockServerURI);
-		overrideConfigAndForceCurrentHost();
+	describe('location', () => {
+		let oldLocation = window.location;
+		beforeEach(() => {
+			delete window.location;
+		});
 
-		function forceHost (s) {
-			//Force our config to always point to our server...(client side)
-			let url = new URL(s, 'x:/');
-			let {host, hostname, protocol, port} = global.location;
-			Object.assign(url, {url, host, hostname, protocol, port});
+		afterEach(() => {
+			delete window.location;
+			window.location = oldLocation;
+		});
 
-			return url.toString();
-		}
+		test ('overrideConfigAndForceCurrentHost', () => {
+			expect($AppConfig.server).toBe(mockServerURI);
+			window.location = new URL('https://example.com');
+			overrideConfigAndForceCurrentHost();
 
-		expect($AppConfig.server).toBe(forceHost(mockServerURI));
+
+			expect($AppConfig.server).toBe('https://example.com/dataserver2test/');
+		});
+
+		test ('overrideConfigAndForceCurrentHost (bad port)', () => {
+			expect($AppConfig.server).toBe(mockServerURI);
+			window.location = new URL('https://example.com:0');
+			overrideConfigAndForceCurrentHost();
+
+
+			expect($AppConfig.server).toBe('https://example.com/dataserver2test/');
+		});
+
+		test ('overrideConfigAndForceCurrentHost (bad port, int)', () => {
+			expect($AppConfig.server).toBe(mockServerURI);
+			window.location = new URL('https://example.com');
+			window.location.port = 0;
+			overrideConfigAndForceCurrentHost();
+
+
+			expect($AppConfig.server).toBe('https://example.com/dataserver2test/');
+		});
+
 	});
-
 });

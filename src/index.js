@@ -348,8 +348,11 @@ export function overrideConfigAndForceCurrentHost () {
 	function forceHost (s) {
 		const { location } = global;
 		//Force our config to always point to our server...(client side)
-		let url = new URL(s, location.href);
+		const url = new URL(s, location.href);
 		let {hostname, protocol, port} = location;
+		if (!port || port === '0') {
+			port = '';
+		}
 		Object.assign(url, {hostname, protocol, port});
 		return url.toString();
 	}
