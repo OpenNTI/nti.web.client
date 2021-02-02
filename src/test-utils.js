@@ -10,7 +10,7 @@
 /**
  * Apply values to the service.
  * @param  {Object} keyValues An object of key/value pairs to apply to the service document instance.
- * @return {Service} Returns the current instance of the service document.
+ * @returns {Service} Returns the current instance of the service document.
  */
 export const hookService = (keyValues) => Object.assign(global.$AppConfig.nodeService, keyValues);
 
@@ -19,7 +19,7 @@ export const hookService = (keyValues) => Object.assign(global.$AppConfig.nodeSe
  * Initialize a test environment.
  *
  * @param  {Object} [service={}] A service document object/instance.
- * @return {void}
+ * @returns {void}
  */
 export const setupTestClient = (service = {}) => {
 	global.$AppConfig = {
@@ -35,7 +35,7 @@ export const setupTestClient = (service = {}) => {
 /**
  * Destroy the test environment.
  *
- * @return {void}
+ * @returns {void}
  */
 export const tearDownTestClient = () => {
 	//unmock getService()

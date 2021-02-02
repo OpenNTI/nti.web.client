@@ -63,7 +63,7 @@ export default {
 	 *
 	 * @async
 	 * @param  {string|string[]} id The key or keys in the external-libraries object.
-	 * @return {Promise<string|string[]>} Resolves when all the scripts have loaded and their predicates are satisfied.
+	 * @returns {Promise<string|string[]>} Resolves when all the scripts have loaded and their predicates are satisfied.
 	 */
 	ensureExternalLibrary (id) {
 		if (Array.isArray(id)) {
@@ -98,7 +98,7 @@ export default {
 	 * @async
 	 * @param  {string[]} urls Urls for stylesheets to inject
 	 * @param  {string} forDep external-libraries id (key in object)
-	 * @return {Promise<Link[]>} fulfills with an array of link elements that represent the individual stylesheets
+	 * @returns {Promise<Link[]>} fulfills with an array of link elements that represent the individual stylesheets
 	 */
 	injectStyles (urls, forDep) {
 		const promises = [];
@@ -151,7 +151,7 @@ export default {
 	 * @param  {string} scriptUrl            The url of the script
 	 * @param  {string} shouldDefineSymbol   A key-path expression that should evaluate to truthy once the script is loaded.
 	 * @param  {boolean} invokeDefinedSymbol If true, the defined symbol is assumed to be a function and will be invoked.
-	 * @return {Promise<Script>}             The script element for this injected script.
+	 * @returns {Promise<Script>}             The script element for this injected script.
 	 */
 	injectScript (scriptUrl, shouldDefineSymbol, invokeDefinedSymbol) {
 

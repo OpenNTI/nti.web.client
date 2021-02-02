@@ -20,7 +20,7 @@ const SALT = '!@';
  * Used primarily to decorate a `data` attribute on an element that displays the user's display name.
  *
  * @param  {string|Entity} entity The userId (name) or model
- * @return {string}        The username
+ * @returns {string}        The username
  */
 export function getDebugUsernameString (entity) {
 	if (!isFlag(FLAG)) {
@@ -39,7 +39,7 @@ export function getDebugUsernameString (entity) {
  * URL encodes username (and if the site is configured to hide usernames, it obfuscates them too)
  *
  * @param {string} username The username to encode. *
- * @return {string} encoded username
+ * @returns {string} encoded username
  */
 export function encode (username) {
 	if (isFlag(FLAG)) {
@@ -62,7 +62,7 @@ export function encode (username) {
  * @param {string} blob The string blog to decode.
  * @param {boolean} strict If true this will return NULL if the decoded string is not encoded by the encode method.
  *
- * @return {string} decoded username.
+ * @returns {string} decoded username.
  */
 export function decode (blob, strict) {
 	let decoded = decodeURIComponent(blob);
@@ -94,15 +94,15 @@ export function decode (blob, strict) {
 /**
  * Resolves an entity.
  *
- * @param  {object} props  A dict with keys that will tell us what to do. (For
+ * @param  {Object} props  A dict with keys that will tell us what to do. (For
  *                         react components, this is the props object) If the
  *                         entity object is given, the name is ignored.
- * @param  {object} props.entity The full entity object. No resolve will be
+ * @param  {Object} props.entity The full entity object. No resolve will be
  *                               made, just used as if resolved.
- * @param  {object} props.entityId The entityId to resolve.
+ * @param  {Object} props.entityId The entityId to resolve.
  * @param  {boolean} strict Passed to the decode method. If the encoded name
  *                          doesn't pass safety-checks, strict throws it out.
- * @return {Promise} A promise that will resolve with the entity, or reject
+ * @returns {Promise} A promise that will resolve with the entity, or reject
  *                     with a reason for failure.
  */
 export function resolve ({me, entity, entityId}, strict = false) {

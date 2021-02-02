@@ -48,7 +48,7 @@ function noConfig () {
 /**
  * Get the username of the currently logged in user.
  *
- * @return {string} username
+ * @returns {string} username
  */
 export function getAppUsername () {
 	if (noConfig()) {
@@ -63,7 +63,7 @@ export function getAppUsername () {
  * Get the currently logged in user.
  *
  * @async
- * @return {Promise<User>} user
+ * @returns {Promise<User>} user
  */
 export function getAppUser () {
 	return getService().then(s=> s.getAppUser());
@@ -76,7 +76,7 @@ export function getAppUser () {
  *
  * @async
  * @param  {boolean} excludeGroups Filter out "Groups"
- * @return {Promise<Entity[]>}               [description]
+ * @returns {Promise<Entity[]>}               [description]
  */
 export function getAppUserCommunities (excludeGroups) {
 	return getAppUser().then(x => x.getCommunities(excludeGroups));
@@ -87,7 +87,7 @@ export function getAppUserCommunities (excludeGroups) {
  * Return an interface into local storage the "scopes" all
  * the values to the username.
  *
- * @return {Object}      storage interface
+ * @returns {Object}      storage interface
  */
 export function getAppUserScopedStorage () {
 	getAppUserScopedStorage.cacheScope = getAppUserScopedStorage.cachedScope || btoa(getAppUsername());
@@ -104,7 +104,7 @@ export function getAppUserScopedStorage () {
  * @param  {boolean} [forceUpdate=false]          Force recapture of the return url value if already set.
  * @param  {Location}  [location=global.location] Supply a custom reference to a Location interface.
  * @param  {string} location.search               A query-string with a 'return' key/value pair.
- * @return {string}                              The return url.
+ * @returns {string}                              The return url.
  */
 export function getReturnURL (forceUpdate = false, location = global.location) {
 	let me = getReturnURL;
@@ -128,7 +128,7 @@ getReturnURL(); //capture the return on init.
  * except in just a few places... if you need this, please ask
  * the team if there is a better way.
  *
- * @return {string} the basePath
+ * @returns {string} the basePath
  */
 export function resolveBasePath () {
 	if (typeof document === 'undefined') {
@@ -153,7 +153,7 @@ export function resolveBasePath () {
 /**
  * Get the dataserver endpoint url.
  *
- * @return {string} The url where the dataserver (api) endpoint is.
+ * @returns {string} The url where the dataserver (api) endpoint is.
  */
 export function getServerURI () {
 	if (noConfig()) {
@@ -165,7 +165,7 @@ export function getServerURI () {
 
 /**
  * Return the name of the current `site`.
- * @return {string} site-name
+ * @returns {string} site-name
  */
 export function getSiteName () {
 	//This can only return a value on the client, on the server it currently returns `undefined`.
@@ -178,7 +178,7 @@ export function getSiteName () {
 /**
  * The url to fetch the user agreement data from.
  *
- * @return {string} user-agreement api endpoint.
+ * @returns {string} user-agreement api endpoint.
  */
 export function getUserAgreementURI () {
 	return new URL(`${$AppConfig.basepath}api/user-agreement/view`, global.location).toString();
@@ -189,7 +189,7 @@ export function getUserAgreementURI () {
  * Feature flag test function. Use this function to test if your feature is enabled or not.
  *
  * @param  {string}  flagName Feature/flag name.
- * @return {boolean}          True if the feature is enabled.
+ * @returns {boolean}          True if the feature is enabled.
  */
 export function isFlag (flagName) {
 	if (noConfig()) {
@@ -213,7 +213,7 @@ export function isFlag (flagName) {
  * Get the config value for a given key.
  *
  * @param  {string} key The key in the config.
- * @return {*}     The value at the key, or an empty object.
+ * @returns {*}     The value at the key, or an empty object.
  */
 export function getConfig (key) {
 	const path = key ? key.split('.') : [];
@@ -232,7 +232,7 @@ export function getConfig (key) {
  *
  * @deprecated use getConfig instead
  * @param  {string} key The key in the config.
- * @return {*}     The value at the key, or an empty object.
+ * @returns {*}     The value at the key, or an empty object.
  */
 export function getConfigFor (key) {
 	return getConfig(key);
@@ -241,7 +241,7 @@ export function getConfigFor (key) {
 /**
  * Gets the external-libraries block. External libraries are loaded on demand.
  *
- * @return {Object} A mapping of external libraries
+ * @returns {Object} A mapping of external libraries
  * @see {@link module:ExternalLibraryManager}
  */
 export function externalLibraries () {
@@ -303,7 +303,7 @@ exposeGlobally(getServer, getService);
  * Used to stub out a non-authenticated config for Widgets.
  * See the History Landing page Gifting Widget
  *
- * @return {void}
+ * @returns {void}
  */
 export function installAnonymousService () {
 	if (noConfig() || $AppConfig.nodeInterface) {
@@ -338,7 +338,7 @@ export function overrideAppUsername (name) {
  * we need to rewrite it to point back to the domain that we were served from. Call this once
  * before any other calls to the dataserver in the main entry point.
  *
- * @return {void}
+ * @returns {void}
  */
 export function overrideConfigAndForceCurrentHost () {
 	if (noConfig()) {
@@ -369,7 +369,7 @@ let airbrake = null;
  * Initialize the error reporter
  *
  * @method initErrorReporter
- * @return {void}
+ * @returns {void}
  */
 export async function initErrorReporter () {
 	const empty = x => !x || x === '' || x.length === 0;
@@ -435,7 +435,7 @@ export async function initErrorReporter () {
  * get the instance of the error reporter
  *
  * @method getErrorReporter
- * @return {Airbrake.Client} The Airbrake Client instance. See https://airbrake.io
+ * @returns {Airbrake.Client} The Airbrake Client instance. See https://airbrake.io
  */
 export function getErrorReporter () {
 	return airbrake;
@@ -446,8 +446,8 @@ export function getErrorReporter () {
  * Sends the error to our error log.
  *
  * @method reportError
- * @param  {object}    notice The error descriptor. Should have at least an 'error' key.
- * @return {void}
+ * @param  {Object}    notice The error descriptor. Should have at least an 'error' key.
+ * @returns {void}
  */
 export function reportError (notice) {
 	if (!airbrake) { return; }
