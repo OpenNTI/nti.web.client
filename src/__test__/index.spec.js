@@ -16,27 +16,29 @@ import {
 	getServer,
 	getService,
 	overrideAppUsername,
-	overrideConfigAndForceCurrentHost
+	overrideConfigAndForceCurrentHost,
 } from '../index';
 
 describe('Client Interface', () => {
 	const mockUser = {
 		username: 'tester',
-		getCommunities () {
-			return [{username:'ABC'}];
-		}
+		getCommunities() {
+			return [{ username: 'ABC' }];
+		},
 	};
 
 	const mockServerURI = 'http://0.0.0.0:8888/dataserver2test/';
 
 	const mockService = {
-		getAppUser () {
+		getAppUser() {
 			return Promise.resolve(mockUser);
-		}
+		},
 	};
 
 	const mockInterface = {
-		getServiceDocument () { return Promise.resolve(mockService); }
+		getServiceDocument() {
+			return Promise.resolve(mockService);
+		},
 	};
 
 	beforeEach(() => {
@@ -57,14 +59,13 @@ describe('Client Interface', () => {
 
 				Tests: {
 					flagA: false,
-					flagB: true
-				}
-			}
+					flagB: true,
+				},
+			},
 		};
 	});
 
-
-	test ('getServer', () => {
+	test('getServer', () => {
 		const mock = mockInterface;
 		//In live code, the getServer returns an an instance of Interface (@nti/lib-interfaces)
 		//
@@ -85,8 +86,7 @@ describe('Client Interface', () => {
 			expect(ds.config).toBe($AppConfig);
 			expect(ds.config.server).toBe($AppConfig.server);
 			expect(getServer.datacache).toBeTruthy();
-		}
-		finally {
+		} finally {
 			//put it back.
 			delete getServer.datacache;
 			$AppConfig.nodeInterface = mock;
@@ -94,8 +94,7 @@ describe('Client Interface', () => {
 		}
 	});
 
-
-	test ('getService', done => {
+	test('getService', done => {
 		spyOn(mockInterface, 'getServiceDocument').and.callThrough();
 		const mockResult = getService();
 		const error = jest.fn();
@@ -111,7 +110,7 @@ describe('Client Interface', () => {
 		expect(result.then).toBeTruthy();
 
 		Promise.all([mockResult, result])
-			.then((r) => {
+			.then(r => {
 				const [mock, meh] = r;
 
 				expect(mock).toBe(mockService);
@@ -122,18 +121,15 @@ describe('Client Interface', () => {
 			.then(done);
 	});
 
-
-	test ('getServerURI', () => {
+	test('getServerURI', () => {
 		expect(getServerURI()).toBe(mockServerURI);
 	});
 
-
-	test ('getAppUsername', () => {
+	test('getAppUsername', () => {
 		expect(getAppUsername()).toBe($AppConfig.username);
 	});
 
-
-	test ('getAppUser', done => {
+	test('getAppUser', done => {
 		const error = jest.fn();
 		getAppUser()
 			.then(user => expect(user).toBe(mockUser))
@@ -144,13 +140,12 @@ describe('Client Interface', () => {
 			});
 	});
 
-
-	test ('getAppUserCommunities', done => {
+	test('getAppUserCommunities', done => {
 		const error = jest.fn('Error');
 		getAppUserCommunities()
 			.then(list => {
 				//In live code, the list will be instances of Community objects.
-				expect(list).toEqual([{username: 'ABC'}]);
+				expect(list).toEqual([{ username: 'ABC' }]);
 			})
 			.catch(error)
 			.then(() => {
@@ -170,10 +165,9 @@ describe('Client Interface', () => {
 		expect(getAppUserScopedStorage.cacheScope).toBeDefined();
 	});
 
-
-	test ('getReturnURL', () => {
+	test('getReturnURL', () => {
 		const returnTo = 'http://localhost:8082/mobile/course/foobar';
-		const mock = {search: `?return=${encodeURIComponent(returnTo)}`};
+		const mock = { search: `?return=${encodeURIComponent(returnTo)}` };
 
 		//We expect this to match initially.
 		expect(getReturnURL()).toBeUndefined();
@@ -187,21 +181,21 @@ describe('Client Interface', () => {
 		expect(getReturnURL()).toBeUndefined();
 	});
 
-
-	test ('getSiteName', () => {
-		const expectedSite = $AppConfig.siteName || (global.location || {}).hostname || 'default';
+	test('getSiteName', () => {
+		const expectedSite =
+			$AppConfig.siteName ||
+			(global.location || {}).hostname ||
+			'default';
 		expect(getSiteName()).toBe(expectedSite);
 	});
 
-
-	test ('getUserAgreementURI', () => {
+	test('getUserAgreementURI', () => {
 		const uri = getUserAgreementURI();
 		expect(uri).toBeTruthy();
 		expect(() => new URL(uri)).not.toThrow();
 	});
 
-
-	test ('isFlag', () => {
+	test('isFlag', () => {
 		expect(isFlag('flagA')).toBe(false);
 		expect(isFlag('flagB')).toBe(true);
 		expect(isFlag('flagC')).toBe(true);
@@ -212,25 +206,20 @@ describe('Client Interface', () => {
 		expect(isFlag('flagA')).toBe(true);
 	});
 
-
-
-	test ('getConfig', () => {
+	test('getConfig', () => {
 		expect(getConfig('someConfig')).toBe($AppConfig.someConfig);
 	});
 
-
-	test ('externalLibraries', () => {
+	test('externalLibraries', () => {
 		expect(externalLibraries()).toBe($AppConfig['external-libraries']);
 	});
 
-
-	test ('overrideAppUsername', () => {
+	test('overrideAppUsername', () => {
 		const overridden = 'foobar!';
 		expect(getAppUsername()).toBe(mockUser.username);
 		overrideAppUsername(overridden);
 		expect(getAppUsername()).toBe(overridden);
 	});
-
 
 	describe('location', () => {
 		let oldLocation = window.location;
@@ -243,33 +232,35 @@ describe('Client Interface', () => {
 			window.location = oldLocation;
 		});
 
-		test ('overrideConfigAndForceCurrentHost', () => {
+		test('overrideConfigAndForceCurrentHost', () => {
 			expect($AppConfig.server).toBe(mockServerURI);
 			window.location = new URL('https://example.com');
 			overrideConfigAndForceCurrentHost();
 
-
-			expect($AppConfig.server).toBe('https://example.com/dataserver2test/');
+			expect($AppConfig.server).toBe(
+				'https://example.com/dataserver2test/'
+			);
 		});
 
-		test ('overrideConfigAndForceCurrentHost (bad port)', () => {
+		test('overrideConfigAndForceCurrentHost (bad port)', () => {
 			expect($AppConfig.server).toBe(mockServerURI);
 			window.location = new URL('https://example.com:0');
 			overrideConfigAndForceCurrentHost();
 
-
-			expect($AppConfig.server).toBe('https://example.com/dataserver2test/');
+			expect($AppConfig.server).toBe(
+				'https://example.com/dataserver2test/'
+			);
 		});
 
-		test ('overrideConfigAndForceCurrentHost (bad port, int)', () => {
+		test('overrideConfigAndForceCurrentHost (bad port, int)', () => {
 			expect($AppConfig.server).toBe(mockServerURI);
 			window.location = new URL('https://example.com');
 			window.location.port = 0;
 			overrideConfigAndForceCurrentHost();
 
-
-			expect($AppConfig.server).toBe('https://example.com/dataserver2test/');
+			expect($AppConfig.server).toBe(
+				'https://example.com/dataserver2test/'
+			);
 		});
-
 	});
 });

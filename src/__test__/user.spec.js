@@ -1,10 +1,9 @@
 /* globals spyOn */
 /* eslint-env jest */
-import {getDebugUsernameString, encode, decode, resolve} from '../user';
+import { getDebugUsernameString, encode, decode, resolve } from '../user';
 
 describe('User utils', () => {
-
-	function enableObfuscation () {
+	function enableObfuscation() {
 		global.$AppConfig.flags['obfuscate-usernames'] = true;
 	}
 
@@ -13,28 +12,28 @@ describe('User utils', () => {
 			flags: {},
 			siteName: 'Tests',
 			nodeService: {
-				resolveEntity (id) {
-					return Promise.resolve({Username: id});
-				}
-			}
+				resolveEntity(id) {
+					return Promise.resolve({ Username: id });
+				},
+			},
 		};
 	});
 
-
-	test ('getDebugUsernameString', () => {
+	test('getDebugUsernameString', () => {
 		const username = 'Foobar';
-		const entity = {Username: username};
+		const entity = { Username: username };
 		const randomNonStringNonObject = () => {};
 
 		expect(getDebugUsernameString(username)).toBe(void 0);
 		enableObfuscation();
 		expect(getDebugUsernameString(username)).toBe(username);
 		expect(getDebugUsernameString(entity)).toBe(username);
-		expect(getDebugUsernameString(randomNonStringNonObject)).toBe('Unknown');
+		expect(getDebugUsernameString(randomNonStringNonObject)).toBe(
+			'Unknown'
+		);
 	});
 
-
-	test ('encode', () => {
+	test('encode', () => {
 		const name = 'johnny appleseed';
 		const uriencoded = encodeURIComponent(name);
 		expect(encode(name)).toBe(uriencoded);
@@ -47,8 +46,7 @@ describe('User utils', () => {
 		expect(out).not.toBe(name);
 	});
 
-
-	test ('decode', () => {
+	test('decode', () => {
 		const name = 'johnny appleseed';
 		const uriencoded = encodeURIComponent(name);
 
@@ -61,35 +59,39 @@ describe('User utils', () => {
 		expect(decode(encode(name))).toBe(name);
 	});
 
-
-	test ('resolve', done => {
+	test('resolve', done => {
 		const entityId = 'TestABC';
-		const entity = {Username: entityId};
+		const entity = { Username: entityId };
 
-		spyOn(global.$AppConfig.nodeService,'resolveEntity').and.callThrough();
+		spyOn(global.$AppConfig.nodeService, 'resolveEntity').and.callThrough();
 
-		const resolveShortCircut = resolve({entity, entityId});
-		expect(global.$AppConfig.nodeService.resolveEntity).not.toHaveBeenCalled();
+		const resolveShortCircut = resolve({ entity, entityId });
+		expect(
+			global.$AppConfig.nodeService.resolveEntity
+		).not.toHaveBeenCalled();
 
-		const resolveMakeRequest = resolve({entityId});
+		const resolveMakeRequest = resolve({ entityId });
 		resolveMakeRequest.then(() =>
-			expect(global.$AppConfig.nodeService.resolveEntity).toHaveBeenCalled()
+			expect(
+				global.$AppConfig.nodeService.resolveEntity
+			).toHaveBeenCalled()
 		);
 
 		enableObfuscation();
-		const resolveMakeRequestEncoded = resolve({entityId: encode(entityId)});
+		const resolveMakeRequestEncoded = resolve({
+			entityId: encode(entityId),
+		});
 
 		Promise.all([
 			resolveShortCircut,
 			resolveMakeRequest,
-			resolveMakeRequestEncoded
-		])
-			.then(results => {
+			resolveMakeRequestEncoded,
+		]).then(results => {
+			expect(
+				results.map(x => x.Username).every(name => name === entityId)
+			).toBeTruthy();
 
-				expect(results.map(x => x.Username).every(name => name === entityId)).toBeTruthy();
-
-				done();
-			});
+			done();
+		});
 	});
-
 });

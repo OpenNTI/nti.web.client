@@ -5,7 +5,7 @@ import Logger from '@nti/util-logger';
 import Mixin, { //eslint-disable-line no-unused-vars
 	getSymbol,
 	appendToSingletonElement,
-	createElement
+	createElement,
 } from '../ExternalLibraryManager';
 
 const logger = Logger.get('ExternalLibrariesManager');
@@ -13,16 +13,18 @@ const logger = Logger.get('ExternalLibrariesManager');
 describe('External Library Manager (Mixin)', () => {
 	beforeEach(() => spyOn(logger, 'warn')); //suppress logger to output.
 
-	test ('getSymbol', () => {
-		const d = {value: '123'};
-		const o = {a: {b: {c:{d}}}};
+	test('getSymbol', () => {
+		const d = { value: '123' };
+		const o = { a: { b: { c: { d } } } };
 
 		expect(getSymbol(global, 'foobar')).toBe(false);
-		expect(getSymbol(o, 'a.b.c.d.value')).toEqual({scope: d, symbol: d.value});
+		expect(getSymbol(o, 'a.b.c.d.value')).toEqual({
+			scope: d,
+			symbol: d.value,
+		});
 	});
 
-
-	test ('appendToSingletonElement', () => {
+	test('appendToSingletonElement', () => {
 		const head = document.getElementsByTagName('head')[0];
 		const child = {};
 		spyOn(head, 'appendChild');
@@ -32,25 +34,27 @@ describe('External Library Manager (Mixin)', () => {
 		expect(head.appendChild).toHaveBeenCalledWith(child);
 	});
 
-
-	test ('createElement', () => {
+	test('createElement', () => {
 		const props = {
 			id: 'foo',
 			name: 'bar',
 			style: {
-				background: 'red'
+				background: 'red',
 			},
-			className: 'test'
+			className: 'test',
 		};
 		const tagName = 'div';
 
-		const doc = {createElement (tag) { return {tagName: tag}; }};
+		const doc = {
+			createElement(tag) {
+				return { tagName: tag };
+			},
+		};
 
 		const result = createElement(doc, tagName, props);
 
-		expect(result).toEqual({tagName, ...props});
+		expect(result).toEqual({ tagName, ...props });
 	});
-
 
 	describe('Mixin', () => {
 		//TODO: test Mixin methods.
