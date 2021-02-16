@@ -9,11 +9,11 @@
  * @module index
  */
 
-import { Notifier } from '@airbrake/browser';
 import { dispatch } from '@nti/lib-dispatcher';
 import Logger from '@nti/util-logger';
 import dataserver from '@nti/lib-interfaces';
 import Storage from '@nti/web-storage';
+import * as Sentry from '@sentry/react';
 
 export * as User from './user';
 export { default as ExternalLibraryManager } from './ExternalLibraryManager';
@@ -362,9 +362,6 @@ export function overrideConfigAndForceCurrentHost() {
 	$AppConfig.server = forceHost($AppConfig.server);
 }
 
-// module private variable
-let airbrake = null;
-
 /**
  * Initialize the error reporter
  *
@@ -372,19 +369,13 @@ let airbrake = null;
  * @returns {void}
  */
 export async function initErrorReporter() {
-	const empty = x => !x || x === '' || x.length === 0;
 	if (noConfig()) {
 		logger.error(
 			'utils:initErrorReporter() was called before config was defined.'
 		);
 	}
 
-	if (airbrake) {
-		logger.warn('utils:initErrorReporter() Airbrake initialized?');
-		return;
-	}
-
-	const { airbrake: config, appName, appVersion, siteName } = $AppConfig;
+	const { appName, appVersion, sentry, siteName } = $AppConfig;
 
 	if (typeof config !== 'object') {
 		logger.error(
@@ -393,22 +384,10 @@ export async function initErrorReporter() {
 		return;
 	}
 
-	if (empty(config.projectKey)) {
-		logger.error(
-			'utils:initErrorReporter() missing airbrake projectKey config property!'
-		);
-		return;
-	}
-
-	// We're expecting these properties:
-	// 		host: string **optional**
-	// 		projectId: integer **optional**
-	// 		projectKey: string
-
-	airbrake = new Notifier({
-		host: 'https://errors.nextthought.io',
-		projectId: 1,
-		...config,
+	Sentry.init({
+		dsn: sentry?.dsn ?? '__DSN__',
+		release: `${appName}@${appVersion}`,
+		// ...
 	});
 
 	function getLocale() {
@@ -419,31 +398,16 @@ export async function initErrorReporter() {
 		}
 	}
 
-	airbrake.addFilter(
-		notice => (
-			Object.assign(notice.context, {
-				environment: siteName,
-				client: appName,
-				version: appVersion,
-				user: {
-					id: getAppUsername(),
-					...getLocale(),
-				},
-			}),
-			//notice.params = QueryString.parse(global.location.search || ''),
-			notice
-		)
-	);
-}
+	Sentry.setContext('app', {
+		app_identifier: siteName,
+		app_name: appName,
+		app_version: appVersion,
+	});
 
-/**
- * get the instance of the error reporter
- *
- * @method getErrorReporter
- * @returns {Airbrake.Client} The Airbrake Client instance. See https://airbrake.io
- */
-export function getErrorReporter() {
-	return airbrake;
+	Sentry.setContext('user', {
+		id: getAppUsername(),
+		...getLocale(),
+	});
 }
 
 /**
@@ -454,8 +418,8 @@ export function getErrorReporter() {
  * @returns {void}
  */
 export function reportError(notice) {
-	if (!airbrake) {
-		return;
+	if (typeof notice === 'string') {
+		return Sentry.captureMessage(notice);
 	}
-	airbrake.notify(notice);
+	Sentry.captureException(notice);
 }

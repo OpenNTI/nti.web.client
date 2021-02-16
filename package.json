@@ -29,7 +29,7 @@
   "author": "nextthought",
   "license": "UNLICENSED",
   "dependencies": {
-    "@airbrake/browser": "^1.4.1",
+    "@sentry/react": "^6.1.0",
     "@nti/lib-dispatcher": "NextThought/nti.lib.dispatcher",
     "@nti/lib-interfaces": "NextThought/nti.lib.interfaces",
     "@nti/util-logger": "NextThought/nti.util.logger",
