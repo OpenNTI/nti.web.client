@@ -402,9 +402,39 @@ export async function initErrorReporter() {
 	});
 
 	Sentry.setContext('user', {
+		site: siteName,
 		id: getAppUsername(),
 		...getLocale(),
 	});
+
+	global.addEventListener(
+		'user-set',
+		({ detail: user }) => {
+			const service = user[Symbol.for('Service')];
+
+			const isSiteAdmin = () =>
+				// Look for a workspace in the service doc called SiteAdmin
+				Boolean(
+					(service?.Items || []).find(x => x.Title === 'SiteAdmin')
+				);
+
+			// Convention here is that `_` signifies PII
+			// and thus needs to be handled appropriately.
+			Sentry.setContext('user', {
+				site: siteName,
+				id: getAppUsername(),
+				...getLocale(),
+				// _name: user.realname,
+				// _email: user.email,
+				// _firstName: user.NonI18NFirstName,
+				// _lastName: user.NonI18NLastName,
+				createdTime: user.getCreatedTime().getTime(),
+				lastActiveTime: user.getLastSeenTime().getTime(),
+				userType: isSiteAdmin() ? 'siteadmin' : 'user',
+			});
+		},
+		{ once: true }
+	);
 }
 
 /**
