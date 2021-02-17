@@ -1,4 +1,4 @@
-/* global $AppConfig */
+/* global $AppConfig SENTRY_PROJECT, SENTRY_RELEASE */
 /**
  * Main module entry point.
  *
@@ -383,8 +383,8 @@ export async function initErrorReporter() {
 
 	Sentry.init({
 		...sentry,
-		release: `${appName}@${appVersion}`,
-		// ...
+		release: SENTRY_RELEASE,
+		project: SENTRY_PROJECT,
 	});
 
 	function getLocale() {
