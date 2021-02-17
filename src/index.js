@@ -384,8 +384,12 @@ export async function initErrorReporter() {
 		return;
 	}
 
+	if (!sentry?.dsn) {
+		return;
+	}
+
 	Sentry.init({
-		dsn: sentry?.dsn ?? '__DSN__',
+		...sentry,
 		release: `${appName}@${appVersion}`,
 		// ...
 	});
@@ -418,6 +422,9 @@ export async function initErrorReporter() {
  * @returns {void}
  */
 export function reportError(notice) {
+	if (!$AppConfig?.sentry?.dsn) {
+		return;
+	}
 	if (typeof notice === 'string') {
 		return Sentry.captureMessage(notice);
 	}
