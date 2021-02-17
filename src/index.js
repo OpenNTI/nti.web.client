@@ -14,6 +14,7 @@ import Logger from '@nti/util-logger';
 import dataserver from '@nti/lib-interfaces';
 import Storage from '@nti/web-storage';
 import * as Sentry from '@sentry/react';
+import { Integrations as TracingIntegrations } from '@sentry/tracing';
 
 export * as User from './user';
 export { default as ExternalLibraryManager } from './ExternalLibraryManager';
@@ -382,9 +383,11 @@ export async function initErrorReporter() {
 	}
 
 	Sentry.init({
-		...sentry,
-		release: SENTRY_RELEASE,
+		integrations: [new TracingIntegrations.BrowserTracing()],
 		project: SENTRY_PROJECT,
+		release: SENTRY_RELEASE,
+		tracesSampleRate: 0.2,
+		...sentry,
 	});
 
 	function getLocale() {
