@@ -377,13 +377,6 @@ export async function initErrorReporter() {
 
 	const { appName, appVersion, sentry, siteName } = $AppConfig;
 
-	if (typeof config !== 'object') {
-		logger.error(
-			'utils:initErrorReporter() Airbrake config missing in app config!'
-		);
-		return;
-	}
-
 	if (!sentry?.dsn) {
 		return;
 	}
