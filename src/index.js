@@ -440,14 +440,15 @@ export async function initErrorReporter() {
  *
  * @method reportError
  * @param  {Object}    notice The error descriptor. Should have at least an 'error' key.
- * @returns {void}
+ * @returns {void|false} False if no reporter available
  */
 export function reportError(notice) {
 	if (!$AppConfig?.sentry?.dsn) {
-		return;
+		return false;
 	}
 	if (typeof notice === 'string') {
-		return Sentry.captureMessage(notice);
+		Sentry.captureMessage(notice);
+	} else {
+		Sentry.captureException(notice);
 	}
-	Sentry.captureException(notice);
 }
