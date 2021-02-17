@@ -446,6 +446,15 @@ export function reportError(notice) {
 	if (!$AppConfig?.sentry?.dsn) {
 		return false;
 	}
+
+	const SEEN = reportError.SEEN || (reportError.SEEN = new WeakSet());
+
+	if (SEEN.has(notice)) {
+		return;
+	}
+
+	SEEN.add(notice);
+
 	if (typeof notice === 'string') {
 		Sentry.captureMessage(notice);
 	} else {
