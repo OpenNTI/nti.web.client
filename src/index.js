@@ -414,9 +414,7 @@ export async function initErrorReporter() {
 
 			const isSiteAdmin = () =>
 				// Look for a workspace in the service doc called SiteAdmin
-				Boolean(
-					(service?.Items || []).find(x => x.Title === 'SiteAdmin')
-				);
+				(service?.Items || []).find(x => x.Title === 'SiteAdmin');
 
 			// Convention here is that `_` signifies PII
 			// and thus needs to be handled appropriately.
