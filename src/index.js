@@ -388,6 +388,7 @@ export async function initErrorReporter() {
 	]);
 
 	Sentry.init({
+		ignoreErrors: ['ResizeObserver loop limit exceeded'],
 		integrations: [new SentryTracing.Integrations.BrowserTracing()],
 		project: SENTRY_PROJECT,
 		release: SENTRY_RELEASE,
