@@ -135,6 +135,7 @@ export function resolveBasePath() {
 		currentScript,
 	} = document;
 	const ourScripts = x => x.src.startsWith(origin) && /\/js\//.test(x.src);
+	const short = (a, b) => a.src.localeCompare(b.src);
 
 	// Prefer the current script
 	const el =
@@ -142,7 +143,7 @@ export function resolveBasePath() {
 		// Fallback to an id,
 		document.getElementById('main-bundle') ||
 		// Then, if all that fails, the js bundle is generally the last.
-		Array.from(scripts).filter(ourScripts).pop();
+		Array.from(scripts).filter(ourScripts).sort(short)[0];
 
 	//{basePath}/js/foobar.js, resolving '..' against it results in {basePath}
 	return !el ? '/' : new URL('..', el.src).pathname;
