@@ -463,7 +463,11 @@ export function reportError(notice) {
 		return;
 	}
 
-	SEEN.add(notice);
+	try {
+		SEEN.add(notice);
+	} catch {
+		// not a valid error object
+	}
 
 	if (typeof notice === 'string') {
 		Sentry.captureMessage(notice);
