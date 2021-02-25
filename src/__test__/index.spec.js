@@ -237,9 +237,7 @@ describe('Client Interface', () => {
 			window.location = new URL('https://example.com');
 			overrideConfigAndForceCurrentHost();
 
-			expect($AppConfig.server).toBe(
-				'https://example.com/dataserver2test/'
-			);
+			expect($AppConfig.server).toBe('/dataserver2test/');
 		});
 
 		test('overrideConfigAndForceCurrentHost (bad port)', () => {
@@ -247,9 +245,7 @@ describe('Client Interface', () => {
 			window.location = new URL('https://example.com:0');
 			overrideConfigAndForceCurrentHost();
 
-			expect($AppConfig.server).toBe(
-				'https://example.com/dataserver2test/'
-			);
+			expect($AppConfig.server).toBe('/dataserver2test/');
 		});
 
 		test('overrideConfigAndForceCurrentHost (bad port, int)', () => {
@@ -258,9 +254,7 @@ describe('Client Interface', () => {
 			window.location.port = 0;
 			overrideConfigAndForceCurrentHost();
 
-			expect($AppConfig.server).toBe(
-				'https://example.com/dataserver2test/'
-			);
+			expect($AppConfig.server).toBe('/dataserver2test/');
 		});
 	});
 });
