@@ -348,15 +348,19 @@ export function overrideConfigAndForceCurrentHost() {
 	}
 
 	function forceHost(s) {
-		const { location } = global;
-		//Force our config to always point to our server...(client side)
-		const url = new URL(s, location.href);
-		let { hostname, protocol, port } = location;
-		if (!port || port === '0') {
-			port = '';
+		try {
+			const { location } = global;
+			//Force our config to always point to our server...(client side)
+			const url = new URL(s, location.href);
+			let { hostname, protocol, port } = location;
+			if (!port || port === '0') {
+				port = '';
+			}
+			Object.assign(url, { hostname, protocol, port });
+			return url.pathname;
+		} catch {
+			return '/host-resolution-failed/' + s;
 		}
-		Object.assign(url, { hostname, protocol, port });
-		return url.toString();
 	}
 
 	$AppConfig.server = forceHost($AppConfig.server);
