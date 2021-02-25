@@ -415,11 +415,13 @@ export async function initErrorReporter() {
 		app_version: appVersion,
 	});
 
-	Sentry.setContext('user', {
+	const userContext = {
 		site: siteName,
-		id: getAppUsername(),
+		username: getAppUsername(),
 		...getLocale(),
-	});
+	};
+
+	Sentry.setContext('user', userContext);
 
 	global.addEventListener(
 		'user-set',
@@ -433,9 +435,10 @@ export async function initErrorReporter() {
 			// Convention here is that `_` signifies PII
 			// and thus needs to be handled appropriately.
 			Sentry.setContext('user', {
-				site: siteName,
-				id: getAppUsername(),
-				...getLocale(),
+				...userContext,
+				id: user.OID,
+				username: user.username,
+				email: user.email,
 				// _name: user.realname,
 				// _email: user.email,
 				// _firstName: user.NonI18NFirstName,
