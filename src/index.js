@@ -429,8 +429,7 @@ export async function initErrorReporter() {
 			// and thus needs to be handled appropriately.
 			Sentry.setUser({
 				site: siteName,
-				username: getAppUsername(),
-				Username: getAppUsername(),
+				username: user.Username,
 				...getLocale(),
 				id: user.OID,
 				email: user.email,
