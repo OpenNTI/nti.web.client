@@ -395,10 +395,11 @@ export async function initErrorReporter() {
 	Sentry.init({
 		ignoreErrors: ['ResizeObserver loop limit exceeded'],
 		integrations: [new SentryTracing.Integrations.BrowserTracing()],
-		project: SENTRY_PROJECT,
-		release: SENTRY_RELEASE,
 		tracesSampleRate: 0.2,
 		...sentry,
+		// force project/release
+		project: SENTRY_PROJECT,
+		release: SENTRY_RELEASE,
 	});
 
 	function getLocale() {
@@ -429,6 +430,7 @@ export async function initErrorReporter() {
 			Sentry.setUser({
 				site: siteName,
 				username: getAppUsername(),
+				Username: getAppUsername(),
 				...getLocale(),
 				id: user.OID,
 				email: user.email,
