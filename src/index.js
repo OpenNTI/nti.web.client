@@ -415,14 +415,6 @@ export async function initErrorReporter() {
 		app_version: appVersion,
 	});
 
-	const userContext = {
-		site: siteName,
-		username: getAppUsername(),
-		...getLocale(),
-	};
-
-	Sentry.setContext('user', userContext);
-
 	global.addEventListener(
 		'user-set',
 		({ detail: user }) => {
@@ -434,17 +426,18 @@ export async function initErrorReporter() {
 
 			// Convention here is that `_` signifies PII
 			// and thus needs to be handled appropriately.
-			Sentry.setContext('user', {
-				...userContext,
+			Sentry.setUser({
+				site: siteName,
+				username: getAppUsername(),
+				...getLocale(),
 				id: user.OID,
-				username: user.username,
 				email: user.email,
 				// _name: user.realname,
 				// _email: user.email,
 				// _firstName: user.NonI18NFirstName,
 				// _lastName: user.NonI18NLastName,
-				createdTime: user.getCreatedTime().getTime(),
-				lastActiveTime: user.getLastSeenTime().getTime(),
+				createdTime: user.getCreatedTime(),
+				lastActiveTime: user.getLastSeenTime(),
 				userType: isSiteAdmin() ? 'siteadmin' : 'user',
 			});
 		},
