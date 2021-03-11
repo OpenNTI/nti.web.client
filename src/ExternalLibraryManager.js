@@ -83,12 +83,16 @@ export default {
 		} = lib;
 
 		if (!url) {
-			return Promise.reject(`No ${id} Library (properly) Defined`);
+			return Promise.reject(
+				new Error(`No ${id} Library (properly) Defined`)
+			);
 		}
 
 		if (!definesSymbol) {
 			return Promise.reject(
-				`Library ${id} should have an expression for "definesSymbol"`
+				new Error(
+					`Library ${id} should have an expression for "definesSymbol"`
+				)
 			);
 		}
 

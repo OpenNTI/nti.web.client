@@ -108,7 +108,7 @@ export function resolve({ me, entity, entityId }, strict = false) {
 	entity = me ? getAppUsername() : entity || entityId;
 
 	let promise = !entity
-		? Promise.reject('No Entity')
+		? Promise.reject(new Error('No Entity'))
 		: typeof entity === 'object' && Promise.resolve(entity);
 
 	if (!promise) {
