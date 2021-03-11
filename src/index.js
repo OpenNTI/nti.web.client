@@ -454,7 +454,7 @@ export async function initErrorReporter() {
  * @returns {void|false} False if no reporter available
  */
 export function reportError(notice) {
-	if (!global.$AppConfig?.sentry?.dsn) {
+	if (!notice || !global.$AppConfig?.sentry?.dsn) {
 		return false;
 	}
 
