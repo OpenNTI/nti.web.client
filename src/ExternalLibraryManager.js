@@ -66,7 +66,7 @@ export default {
 	 * @param  {string|string[]} id The key or keys in the external-libraries object.
 	 * @returns {Promise<string|string[]>} Resolves when all the scripts have loaded and their predicates are satisfied.
 	 */
-	ensureExternalLibrary(id) {
+	async ensureExternalLibrary(id) {
 		if (Array.isArray(id)) {
 			return Promise.all(id.map(x => this.ensureExternalLibrary(x)));
 		}
@@ -83,25 +83,18 @@ export default {
 		} = lib;
 
 		if (!url) {
-			return Promise.reject(
-				new Error(`No ${id} Library (properly) Defined`)
-			);
+			throw new Error(`No ${id} Library (properly) Defined`);
 		}
 
 		if (!definesSymbol) {
-			return Promise.reject(
-				new Error(
-					`Library ${id} should have an expression for "definesSymbol"`
-				)
+			throw new Error(
+				`Library ${id} should have an expression for "definesSymbol"`
 			);
 		}
 
-		return Promise.all(
-			requires.map(dep => this.ensureExternalLibrary(dep))
-		).then(() => {
-			this.injectStyles(stylesheets, id);
-			return this.injectScript(url, definesSymbol, invokeDefinedSymbol);
-		});
+		await Promise.all(requires.map(dep => this.ensureExternalLibrary(dep)));
+		this.injectStyles(stylesheets, id);
+		return this.injectScript(url, definesSymbol, invokeDefinedSymbol);
 	},
 
 	/**
