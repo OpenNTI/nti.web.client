@@ -386,15 +386,36 @@ export async function initErrorReporter() {
 		return;
 	}
 
-	let SentryTracing;
-	[Sentry, SentryTracing] = await Promise.all([
+	let SentryTracing, SentryIntegrations;
+	[Sentry, SentryTracing, SentryIntegrations] = await Promise.all([
 		import('@sentry/react'),
 		import('@sentry/tracing'),
+		import('@sentry/integrations'),
 	]);
+
+	const ALPHA = /-alpha/.test(SENTRY_RELEASE);
 
 	Sentry.init({
 		ignoreErrors: ['ResizeObserver loop limit exceeded'],
-		integrations: [new SentryTracing.Integrations.BrowserTracing()],
+		integrations: [
+			new SentryTracing.Integrations.BrowserTracing(),
+			new SentryIntegrations.RewriteFrames({
+				iteratee: ALPHA
+					? null
+					: frame => {
+							const source = new URL(
+								frame.filename,
+								document.url
+							);
+							source.pathname = source.pathname.replace(
+								/^\/[^/]+\/js\//,
+								'/js/'
+							);
+							frame.filename = source.toString();
+							return frame;
+					  },
+			}),
+		],
 		tracesSampleRate: 0.2,
 		...sentry,
 		// force project/release
