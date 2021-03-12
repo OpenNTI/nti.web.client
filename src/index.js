@@ -494,6 +494,9 @@ export function reportError(notice) {
 	if (typeof notice === 'string') {
 		Sentry.captureMessage(notice);
 	} else {
+		if (notice.error && notice.error instanceof Error) {
+			notice = notice.error;
+		}
 		Sentry.captureException(notice);
 	}
 }
