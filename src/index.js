@@ -491,12 +491,18 @@ export function reportError(notice) {
 		// not a valid error object
 	}
 
-	if (typeof notice === 'string') {
-		Sentry.captureMessage(notice);
-	} else {
-		if (notice.error && notice.error instanceof Error) {
-			notice = notice.error;
-		}
-		Sentry.captureException(notice);
+	if (notice.error && notice.error instanceof Error) {
+		notice = notice.error;
 	}
+
+	if (typeof notice === 'string') {
+		notice = new Error(notice);
+	}
+
+	if (!(notice instanceof Error)) {
+		const keys = Object.keys(notice).join(', ');
+		notice = new Error(`Non-Error reported with keys: ${keys}`);
+	}
+
+	Sentry.captureException(notice);
 }
