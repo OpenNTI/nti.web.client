@@ -403,15 +403,19 @@ export async function initErrorReporter() {
 				iteratee: ALPHA
 					? null
 					: frame => {
-							const source = new URL(
-								frame.filename,
-								document.url
-							);
-							source.pathname = source.pathname.replace(
-								/^\/[^/]+\/js\//,
-								'/js/'
-							);
-							frame.filename = source.toString();
+							try {
+								const source = new URL(
+									frame.filename,
+									document.url
+								);
+								source.pathname = source.pathname.replace(
+									/^\/[^/]+\/js\//,
+									'/js/'
+								);
+								frame.filename = source.toString();
+							} catch {
+								// frame.filename was not valid as a URL...
+							}
 							return frame;
 					  },
 			}),
