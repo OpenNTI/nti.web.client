@@ -469,6 +469,8 @@ export async function initErrorReporter() {
 		},
 		{ once: true }
 	);
+
+	Logger.injectSentry(Sentry);
 }
 
 /**
