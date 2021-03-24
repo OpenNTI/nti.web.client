@@ -481,10 +481,11 @@ export async function initErrorReporter() {
  * @returns {void|false} False if no reporter available
  */
 export function reportError(notice) {
-	if (!notice || !global.$AppConfig?.sentry?.dsn) {
+	if (!notice) {
+		// eslint-disable-next-line no-console
+		console.error('reportError called without any data');
 		return false;
 	}
-
 	const SEEN = reportError.SEEN || (reportError.SEEN = new WeakSet());
 
 	if (SEEN.has(notice)) {
@@ -508,6 +509,15 @@ export function reportError(notice) {
 	if (!(notice instanceof Error)) {
 		const keys = Object.keys(notice).join(', ');
 		notice = new Error(`Non-Error reported with keys: ${keys}`);
+	}
+
+	if (!global.$AppConfig?.sentry?.dsn) {
+		// eslint-disable-next-line no-console
+		console.error(
+			'Sentry not configured. This error would be reported:',
+			notice?.stack || notice.message || notice
+		);
+		return false;
 	}
 
 	Sentry.captureException(notice);
