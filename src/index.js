@@ -9,6 +9,8 @@
  * @module index
  */
 
+import { Base64 } from 'js-base64';
+
 import { dispatch } from '@nti/lib-dispatcher';
 import Logger from '@nti/util-logger';
 import dataserver from '@nti/lib-interfaces';
@@ -82,7 +84,8 @@ export function getAppUserCommunities(excludeGroups) {
  */
 export function getAppUserScopedStorage() {
 	getAppUserScopedStorage.cacheScope =
-		getAppUserScopedStorage.cachedScope || btoa(getAppUsername());
+		getAppUserScopedStorage.cachedScope ||
+		Base64.encode(getAppUsername() || 'unknown');
 
 	return Storage.scope(getAppUserScopedStorage.cacheScope);
 }
