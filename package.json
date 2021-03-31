@@ -2,12 +2,7 @@
   "name": "@nti/web-client",
   "version": "1.22.0-alpha",
   "description": "The client interfaces for the web service.",
-  "main": ".index.js",
-  "module": "src/index.js",
-  "files": [
-    ".index.js",
-    "src"
-  ],
+  "main": "src/index.js",
   "testEnvironment": "jsdom",
   "scripts": {
     "test": "lib-scripts test",
@@ -35,8 +30,7 @@
     "@nti/lib-dispatcher": "NextThought/nti.lib.dispatcher",
     "@nti/lib-interfaces": "NextThought/nti.lib.interfaces",
     "@nti/util-logger": "NextThought/nti.util.logger",
-    "@nti/web-storage": "NextThought/nti.web.storage",
-    "esm": "^3.2.25"
+    "@nti/web-storage": "NextThought/nti.web.storage"
   },
   "devDependencies": {
     "@nti/app-scripts": "^2.0.0"
