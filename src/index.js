@@ -70,6 +70,16 @@ export function getAppUser() {
 }
 
 /**
+ * Get the UserPreferences store for the currently logged in user.
+ *
+ * @async
+ * @returns {Promise<UserPreferences>} UsePreferences store
+ */
+export function getUserPreferences() {
+	return getService().then(s => s.getUserPreferences());
+}
+
+/**
  * Resolve the communities the current user is a part of.
  *
  * @async
