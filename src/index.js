@@ -26,7 +26,9 @@ function exposeGlobally(...fns) {
 	function wrap(fn) {
 		return (...args) => {
 			logger.error(
-				`[DEBUG API ACCESSED (${fn.name})]: This message should only be seen when invoking this method on the REPL.`
+				new Error(
+					`[DEBUG API ACCESSED (${fn.name})]: This message should only be seen when invoking this method on the REPL.`
+				).stack
 			);
 			return fn(...args);
 		};
@@ -49,7 +51,9 @@ function noConfig() {
 export function getAppUsername() {
 	if (noConfig()) {
 		logger.error(
-			'utils:getAppUsername() was called before config was defined.'
+			new Error(
+				'utils:getAppUsername() was called before config was defined.'
+			).stack
 		);
 	}
 	return $AppConfig.username;
@@ -160,7 +164,9 @@ export function resolveBasePath() {
 export function getServerURI() {
 	if (noConfig()) {
 		logger.error(
-			'utils:getServerURI() was called before config was defined.'
+			new Error(
+				'utils:getServerURI() was called before config was defined.'
+			).stack
 		);
 	}
 	return $AppConfig.server;
@@ -199,7 +205,10 @@ export function getUserAgreementURI() {
  */
 export function isFlag(flagName) {
 	if (noConfig()) {
-		logger.error('utils:isFlag() was called before config was defined.');
+		logger.error(
+			new Error('utils:isFlag() was called before config was defined.')
+				.stack
+		);
 		return false;
 	}
 	let site = getSiteName();
@@ -261,7 +270,10 @@ export function externalLibraries() {
  */
 export function getServer() {
 	if (noConfig()) {
-		logger.error('utils:getServer() was called before config was defined.');
+		logger.error(
+			new Error('utils:getServer() was called before config was defined.')
+				.stack
+		);
 	}
 	let fn = getServer;
 
@@ -290,7 +302,9 @@ export function getServer() {
 export function getService() {
 	if (noConfig()) {
 		logger.error(
-			'utils:getService() was called before config was defined.'
+			new Error(
+				'utils:getService() was called before config was defined.'
+			).stack
 		);
 	}
 	return $AppConfig.nodeService
@@ -330,7 +344,9 @@ export function installAnonymousService() {
 export function overrideAppUsername(name) {
 	if (noConfig()) {
 		logger.error(
-			'utils:overrideAppUsername() was called before config was defined.'
+			new Error(
+				'utils:overrideAppUsername() was called before config was defined.'
+			).stack
 		);
 	}
 	$AppConfig.username = name;
@@ -346,7 +362,9 @@ export function overrideAppUsername(name) {
 export function overrideConfigAndForceCurrentHost() {
 	if (noConfig()) {
 		logger.error(
-			'utils:overrideConfigAndForceCurrentHost() was called before config was defined.'
+			new Error(
+				'utils:overrideConfigAndForceCurrentHost() was called before config was defined.'
+			).stack
 		);
 	}
 
@@ -379,7 +397,9 @@ let Sentry;
 export async function initErrorReporter() {
 	if (noConfig()) {
 		logger.error(
-			'utils:initErrorReporter() was called before config was defined.'
+			new Error(
+				'utils:initErrorReporter() was called before config was defined.'
+			).stack
 		);
 	}
 
