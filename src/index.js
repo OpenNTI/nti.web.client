@@ -20,9 +20,9 @@ export * as User from './user';
 export { default as ExternalLibraryManager } from './ExternalLibraryManager';
 export * as TestUtils from './test-utils';
 
-/** @typedef {import('@nti/lib-interfaces/src/models/entities/User')} User */
-/** @typedef {import('@nti/lib-interfaces/src/stores/Service')} Service */
-/** @typedef {import('@nti/lib-interfaces/src/stores/UserPreferences')} UserPreferences */
+/** @typedef {import('@nti/lib-interfaces/src/models/entities/User').default} User */
+/** @typedef {import('@nti/lib-interfaces/src/stores/Service').default} Service */
+/** @typedef {import('@nti/lib-interfaces/src/stores/UserPreferences').default} UserPreferences */
 
 const logger = Logger.get('nti:bootstrap');
 
