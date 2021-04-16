@@ -6,6 +6,7 @@
  * {@link module:ExternalLibraryManager}
  * {@link module:User}
  * {@link module:TestUtils}
+ *
  * @module index
  */
 
@@ -188,6 +189,7 @@ export function getServerURI() {
 
 /**
  * Return the name of the current `site`.
+ *
  * @returns {string} site-name
  */
 export function getSiteName() {
@@ -405,7 +407,7 @@ let Sentry;
 /**
  * Initialize the error reporter
  *
- * @method initErrorReporter
+ * @function initErrorReporter
  * @returns {void}
  */
 export async function initErrorReporter() {
@@ -513,7 +515,7 @@ export async function initErrorReporter() {
 /**
  * Sends the error to our error log.
  *
- * @method reportError
+ * @function reportError
  * @param  {Object}    notice The error descriptor. Should have at least an 'error' key.
  * @returns {void|false} False if no reporter available
  */
