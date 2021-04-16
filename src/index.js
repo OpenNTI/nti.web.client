@@ -21,6 +21,7 @@ export * as User from './user';
 export { default as ExternalLibraryManager } from './ExternalLibraryManager';
 export * as TestUtils from './test-utils';
 
+/** @typedef {import('@nti/lib-interfaces/src/interface/DataServerInterface').default} Interface */
 /** @typedef {import('@nti/lib-interfaces/src/models/entities/User').default} User */
 /** @typedef {import('@nti/lib-interfaces/src/stores/Service').default} Service */
 /** @typedef {import('@nti/lib-interfaces/src/stores/UserPreferences').default} UserPreferences */
