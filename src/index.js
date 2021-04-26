@@ -20,7 +20,7 @@ import Storage from '@nti/web-storage';
 export * as User from './user';
 export { default as ExternalLibraryManager } from './ExternalLibraryManager';
 /** @deprecated */
-export * as TestUtils from './test-utils';
+export * as TestUtils from '../test-utils';
 
 /** @typedef {import('@nti/lib-interfaces/src/interface/DataServerInterface').default} Interface */
 /** @typedef {import('@nti/lib-interfaces/src/models/entities/User').default} User */
