@@ -3,6 +3,10 @@
   "version": "1.23.0-alpha",
   "description": "The client interfaces for the web service.",
   "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./test-utils": "./src/test-utils.js"
+  },
   "testEnvironment": "jsdom",
   "scripts": {
     "test": "lib-scripts test",

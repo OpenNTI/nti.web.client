@@ -1,6 +1,6 @@
 /**
  * Utilities to deal with user entity objects and their IDs.
-
+ 
  * Access by named export on `@nti/web-client`:
  * ```js
  * import {User} from '@nti/web-client';
@@ -93,13 +93,14 @@ export function decode(blob, strict) {
 /**
  * Resolves an entity.
  *
- * @param  {Object} props  A dict with keys that will tell us what to do. (For
+ * @param {Object} props  A dict with keys that will tell us what to do. (For
  *                         react components, this is the props object) If the
  *                         entity object is given, the name is ignored.
- * @param  {Object} props.entity The full entity object. No resolve will be
+ * @param {Object} props.entity The full entity object. No resolve will be
  *                               made, just used as if resolved.
- * @param  {Object} props.entityId The entityId to resolve.
- * @param  {boolean} strict Passed to the decode method. If the encoded name
+ * @param {Object} props.entityId The entityId to resolve.
+ * @param {boolean} props.me
+ * @param {boolean} strict Passed to the decode method. If the encoded name
  *                          doesn't pass safety-checks, strict throws it out.
  * @returns {Promise} A promise that will resolve with the entity, or reject
  *                     with a reason for failure.
