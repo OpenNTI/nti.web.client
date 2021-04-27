@@ -235,7 +235,7 @@ export function isFlag(flagName) {
 
 	flags = { ...flags, ...(flags[site] || {}) };
 
-	for (const flag of (global.localStorage?.flags || '').split(/,\w*/)) {
+	for (const flag of (global.localStorage?.flags || '').split(/,\s*/)) {
 		flags[flag] = true;
 	}
 
