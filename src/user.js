@@ -1,10 +1,11 @@
 /**
  * Utilities to deal with user entity objects and their IDs.
- 
+
  * Access by named export on `@nti/web-client`:
  * ```js
  * import {User} from '@nti/web-client';
  * ```
+ *
  * @module User
  */
 
@@ -30,7 +31,7 @@ export function getDebugUsernameString(entity) {
 
 	return (
 		(type === 'string' && entity) ||
-		(type === 'object' && entity.Username) ||
+		(type === 'object' && entity?.Username) ||
 		'Unknown'
 	);
 }
