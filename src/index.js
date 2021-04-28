@@ -483,6 +483,9 @@ export async function initErrorReporter() {
 		app_version: appVersion,
 	});
 
+	Sentry.setTag('site', siteName);
+	Sentry.setTag('domain', global.location.host);
+
 	global.addEventListener(
 		'user-set',
 		({ detail: user }) => {
