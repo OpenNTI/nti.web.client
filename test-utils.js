@@ -23,12 +23,22 @@ export const hookService = keyValues =>
  *
  * @param  {Object} [service={}] A service document object/instance.
  * @param {string} [username='Test']
+ * @param {string} [siteName='Tests']
+ * @param {Object} [flags]
  * @returns {void}
  */
-export const setupTestClient = (service = {}, username = 'Test') => {
+export const setupTestClient = (
+	service = {},
+	username = 'Test',
+	siteName = 'Tests',
+	flags = {}
+) => {
+	const g = global.$AppConfig || {};
 	global.$AppConfig = {
-		username,
-		...(global.$AppConfig || {}),
+		...g,
+		username: username || g.username,
+		siteName: siteName || g.siteName,
+		flags: flags || g.flags,
 		nodeService: service || {},
 		nodeInterface: {
 			getServiceDocument: () =>

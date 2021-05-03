@@ -1,6 +1,7 @@
 /* globals spyOn */
 /* eslint-env jest */
 import { getDebugUsernameString, encode, decode, resolve } from '../user';
+import { setupTestClient } from '../../test-utils.js';
 
 describe('User utils', () => {
 	function enableObfuscation() {
@@ -8,15 +9,11 @@ describe('User utils', () => {
 	}
 
 	beforeEach(() => {
-		global.$AppConfig = {
-			flags: {},
-			siteName: 'Tests',
-			nodeService: {
-				resolveEntity(id) {
-					return Promise.resolve({ Username: id });
-				},
+		setupTestClient({
+			async resolveEntity(id) {
+				return { Username: id };
 			},
-		};
+		});
 	});
 
 	test('getDebugUsernameString', () => {
