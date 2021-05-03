@@ -73,8 +73,9 @@ export function getAppUsername() {
  * @async
  * @returns {Promise<User>} user
  */
-export function getAppUser() {
-	return getService().then(s => s.getAppUser());
+export async function getAppUser() {
+	const service = await getService();
+	return service.getAppUser();
 }
 
 /**
@@ -83,8 +84,11 @@ export function getAppUser() {
  * @async
  * @returns {Promise<UserPreferences>} UsePreferences store
  */
-export function getUserPreferences() {
-	return getService().then(s => s.getUserPreferences());
+export async function getUserPreferences() {
+	const service = await getService();
+	const preferences = service.getUserPreferences();
+	await preferences.waitForPending();
+	return preferences;
 }
 
 /**
@@ -94,8 +98,9 @@ export function getUserPreferences() {
  * @param  {boolean} excludeGroups Filter out "Groups"
  * @returns {Promise<Entity[]>}               [description]
  */
-export function getAppUserCommunities(excludeGroups) {
-	return getAppUser().then(x => x.getCommunities(excludeGroups));
+export async function getAppUserCommunities(excludeGroups) {
+	const user = await getAppUser();
+	return user.getCommunities(excludeGroups);
 }
 
 /**
