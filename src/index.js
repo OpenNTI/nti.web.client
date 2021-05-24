@@ -441,7 +441,11 @@ export async function initErrorReporter() {
 	const ALPHA = /-alpha/.test(SENTRY_RELEASE);
 
 	Sentry.init({
-		ignoreErrors: ['ResizeObserver loop limit exceeded'],
+		ignoreErrors: [
+			'ResizeObserver loop limit exceeded',
+			'credentials required',
+			'bad password',
+		],
 		integrations: [
 			new SentryTracing.Integrations.BrowserTracing(),
 			new SentryIntegrations.RewriteFrames({
