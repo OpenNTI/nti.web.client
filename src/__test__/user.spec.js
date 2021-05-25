@@ -1,4 +1,3 @@
-/* globals spyOn */
 /* eslint-env jest */
 import { getDebugUsernameString, encode, decode, resolve } from '../user';
 import { setupTestClient } from '../../test-utils.js';
@@ -32,26 +31,26 @@ describe('User utils', () => {
 
 	test('encode', () => {
 		const name = 'johnny appleseed';
-		const uriencoded = encodeURIComponent(name);
-		expect(encode(name)).toBe(uriencoded);
+		const uriEncoded = encodeURIComponent(name);
+		expect(encode(name)).toBe(uriEncoded);
 
 		enableObfuscation();
 
 		const out = encode(name);
 		expect(out).toBeTruthy();
-		expect(out).not.toBe(uriencoded);
+		expect(out).not.toBe(uriEncoded);
 		expect(out).not.toBe(name);
 	});
 
 	test('decode', () => {
 		const name = 'johnny appleseed';
-		const uriencoded = encodeURIComponent(name);
+		const uriEncoded = encodeURIComponent(name);
 
-		expect(decode(uriencoded)).toBe(name);
+		expect(decode(uriEncoded)).toBe(name);
 
 		enableObfuscation();
-		expect(decode(uriencoded)).toBe(name);
-		expect(decode(uriencoded, true)).toBe(null);
+		expect(decode(uriEncoded)).toBe(name);
+		expect(decode(uriEncoded, true)).toBe(null);
 		expect(decode(encode(name), true)).toBe(name);
 		expect(decode(encode(name))).toBe(name);
 	});
@@ -60,9 +59,9 @@ describe('User utils', () => {
 		const entityId = 'TestABC';
 		const entity = { Username: entityId };
 
-		spyOn(global.$AppConfig.nodeService, 'resolveEntity').and.callThrough();
+		jest.spyOn(global.$AppConfig.nodeService, 'resolveEntity');
 
-		const resolveShortCircut = resolve({ entity, entityId });
+		const resolveShortCircuit = resolve({ entity, entityId });
 		expect(
 			global.$AppConfig.nodeService.resolveEntity
 		).not.toHaveBeenCalled();
@@ -80,7 +79,7 @@ describe('User utils', () => {
 		});
 
 		Promise.all([
-			resolveShortCircut,
+			resolveShortCircuit,
 			resolveMakeRequest,
 			resolveMakeRequestEncoded,
 		]).then(results => {
