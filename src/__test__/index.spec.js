@@ -1,4 +1,4 @@
-/* global $AppConfig, spyOn */
+/* global $AppConfig */
 /* eslint-env jest */
 
 import {
@@ -95,7 +95,7 @@ describe('Client Interface', () => {
 	});
 
 	test('getService', done => {
-		spyOn(mockInterface, 'getServiceDocument').and.callThrough();
+		jest.spyOn(mockInterface, 'getServiceDocument');
 		const mockResult = getService();
 		const error = jest.fn();
 
