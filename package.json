@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "exports": {
     ".": "./src/index.js",
+    "./storybook-utils": "./storybook-utils.js",
     "./test-utils": "./test-utils.js"
   },
   "testEnvironment": "jsdom",
