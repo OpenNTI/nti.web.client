@@ -19,10 +19,10 @@ import { setupTestClient, tearDownTestClient } from './test-utils.js';
  * @returns {void}
  */
 export function useRealService() {
+	// clear all mocks
+	tearDownTestClient();
 	useEffect(
 		() => {
-			// clear all mocks
-			tearDownTestClient();
 			// clear any caches
 			return tearDownTestClient;
 		},
@@ -46,10 +46,9 @@ export function useMockService(
 	siteName = 'Tests',
 	flags = {}
 ) {
+	setupTestClient(service, username, siteName, flags);
 	useEffect(
 		() => {
-			setupTestClient(service, username, siteName, flags);
-
 			// clear all mocks and caches
 			return tearDownTestClient;
 		},

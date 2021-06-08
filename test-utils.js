@@ -7,7 +7,8 @@
  * @module TestUtils
  */
 
-/** @typedef {import('@nti/lib-interfaces/src/stores/Service').default} Service */
+/** @typedef {import('@nti/lib-interfaces').Service} Service */
+import { Service } from '@nti/lib-interfaces';
 
 /**
  * Apply values to the service.
@@ -33,7 +34,17 @@ export const setupTestClient = (
 	siteName = 'Tests',
 	flags = {}
 ) => {
+	global.dispatchEvent?.(new CustomEvent('flush-service-document'));
 	const g = global.$AppConfig || {};
+	if (!(service instanceof Service)) {
+		service = new Service(service, {
+			async getPong() {},
+			async get(url) {
+				throw new Error('Mock this request: ' + url);
+			},
+		});
+	}
+
 	global.$AppConfig = {
 		...g,
 		username: username || g.username,
@@ -54,6 +65,7 @@ export const setupTestClient = (
  */
 export const tearDownTestClient = () => {
 	//unmock getService()
+	global.dispatchEvent?.(new CustomEvent('flush-service-document'));
 	const { $AppConfig } = global;
 	delete $AppConfig.nodeInterface;
 	delete $AppConfig.nodeService;
