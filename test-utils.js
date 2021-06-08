@@ -7,8 +7,7 @@
  * @module TestUtils
  */
 
-/** @typedef {import('@nti/lib-interfaces').Service} Service */
-import { Service } from '@nti/lib-interfaces';
+import { ServiceDocument as Service } from '@nti/lib-interfaces';
 
 /**
  * Apply values to the service.
