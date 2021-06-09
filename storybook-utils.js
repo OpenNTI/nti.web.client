@@ -46,7 +46,12 @@ export function useMockService(
 	siteName = 'Tests',
 	flags = {}
 ) {
-	setupTestClient(service, username, siteName, flags);
+	setupTestClient(
+		{ ...service, mockInstanceData: true },
+		username,
+		siteName,
+		flags
+	);
 	useEffect(
 		() => {
 			// clear all mocks and caches

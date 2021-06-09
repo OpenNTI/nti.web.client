@@ -35,7 +35,7 @@ export const setupTestClient = (
 ) => {
 	global.dispatchEvent?.(new CustomEvent('flush-service-document'));
 	const g = global.$AppConfig || {};
-	if (!(service instanceof Service)) {
+	if (service?.mockInstanceData) {
 		service = new Service(service, {
 			async getPong() {},
 			async get(url) {
