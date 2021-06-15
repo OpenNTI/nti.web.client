@@ -21,7 +21,7 @@ export * as User from './user';
 export { default as ExternalLibraryManager } from './ExternalLibraryManager';
 
 /** @typedef {import('@nti/lib-interfaces/src/interface/DataServerInterface').default} Interface */
-/** @typedef {import('@nti/lib-interfaces/src/models/entities/User').default} User */
+/** @typedef {import('@nti/lib-interfaces/src/models/entities/User').default} UserModel */
 /** @typedef {import('@nti/lib-interfaces/src/models/entities/Entity').default} Entity */
 /** @typedef {import('@nti/lib-interfaces/src/stores/Service').default} Service */
 /** @typedef {import('@nti/lib-interfaces/src/stores/UserPreferences').default} UserPreferences */
@@ -69,7 +69,7 @@ export function getAppUsername() {
  * Get the currently logged in user.
  *
  * @async
- * @returns {Promise<User>} user
+ * @returns {Promise<UserModel>} user
  */
 export async function getAppUser() {
 	const service = await getService();
