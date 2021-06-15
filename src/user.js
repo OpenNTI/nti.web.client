@@ -61,7 +61,6 @@ export function encode(username) {
  *
  * @param {string} blob The string blog to decode.
  * @param {boolean} strict If true this will return NULL if the decoded string is not encoded by the encode method.
- *
  * @returns {string} decoded username.
  */
 export function decode(blob, strict) {
@@ -106,18 +105,20 @@ export function decode(blob, strict) {
  * @returns {Promise} A promise that will resolve with the entity, or reject
  *                     with a reason for failure.
  */
-export function resolve({ me, entity, entityId }, strict = false) {
+export async function resolve({ me, entity, entityId }, strict = false) {
 	entity = me ? getAppUsername() : entity || entityId;
 
-	let promise = !entity
-		? Promise.reject(new Error('No Entity'))
-		: typeof entity === 'object' && Promise.resolve(entity);
-
-	if (!promise) {
-		entityId = decode(entity, strict);
-
-		promise = getService().then(service => service.resolveEntity(entityId));
+	if (!entity) {
+		throw new Error('No Entity');
 	}
 
-	return promise;
+	if (typeof entity === 'object') {
+		return entity;
+	}
+
+	entityId = decode(entity, strict);
+
+	const service = await getService();
+
+	return service.resolveEntity(entityId);
 }
