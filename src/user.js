@@ -1,6 +1,6 @@
 /**
  * Utilities to deal with user entity objects and their IDs.
-
+ *
  * Access by named export on `@nti/web-client`:
  * ```js
  * import {User} from '@nti/web-client';
@@ -9,32 +9,7 @@
  * @module User
  */
 
-import { getAppUsername, getService, isFlag } from './index';
-
-const FLAG = 'obfuscate-usernames';
-
-const SALT = '!@';
-
-/**
- * This is a macro used to get the username for any entity.
- * Used primarily to decorate a `data` attribute on an element that displays the user's display name.
- *
- * @param  {string|Entity} entity The userId (name) or model
- * @returns {string}        The username
- */
-export function getDebugUsernameString(entity) {
-	if (!isFlag(FLAG)) {
-		return void 0;
-	}
-
-	const type = typeof entity;
-
-	return (
-		(type === 'string' && entity) ||
-		(type === 'object' && entity?.Username) ||
-		'Unknown'
-	);
-}
+import { getAppUsername, getService } from './index';
 
 /**
  * URL encodes username (and if the site is configured to hide usernames, it obfuscates them too)
@@ -43,14 +18,6 @@ export function getDebugUsernameString(entity) {
  * @returns {string} encoded username
  */
 export function encode(username) {
-	if (isFlag(FLAG)) {
-		username = new Buffer(SALT + username)
-			.toString('base64')
-			.replace(/\+/g, '-')
-			.replace(/\//g, '_')
-			.replace(/=+$/, '');
-	}
-
 	return encodeURIComponent(username);
 }
 
@@ -66,26 +33,6 @@ export function encode(username) {
 export function decode(blob, strict) {
 	let decoded = decodeURIComponent(blob);
 	let str = decoded;
-
-	if (isFlag(FLAG)) {
-		// reverse to original encoding
-		if (str.length % 4 !== 0) {
-			str += '==='.slice(0, 4 - (str.length % 4));
-		}
-
-		str = str.replace(/-/g, '+').replace(/_/g, '/');
-		str = new Buffer(str, 'base64').toString();
-
-		//was it encoded by us?...
-		str =
-			SALT !== str.substr(0, SALT.length)
-				? //no ?abort,
-				  strict
-					? null
-					: decoded
-				: //or return the substring.
-				  str.substr(SALT.length);
-	}
 
 	return str;
 }

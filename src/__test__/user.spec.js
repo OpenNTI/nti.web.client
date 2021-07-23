@@ -1,12 +1,8 @@
 /* eslint-env jest */
-import { getDebugUsernameString, encode, decode, resolve } from '../user';
+import { encode, decode, resolve } from '../user';
 import { setupTestClient } from '../../test-utils.js';
 
 describe('User utils', () => {
-	function enableObfuscation() {
-		global.$AppConfig.flags['obfuscate-usernames'] = true;
-	}
-
 	beforeEach(() => {
 		setupTestClient({
 			async resolveEntity(id) {
@@ -15,30 +11,13 @@ describe('User utils', () => {
 		});
 	});
 
-	test('getDebugUsernameString', () => {
-		const username = 'Foobar';
-		const entity = { Username: username };
-		const randomNonStringNonObject = () => {};
-
-		expect(getDebugUsernameString(username)).toBe(void 0);
-		enableObfuscation();
-		expect(getDebugUsernameString(username)).toBe(username);
-		expect(getDebugUsernameString(entity)).toBe(username);
-		expect(getDebugUsernameString(randomNonStringNonObject)).toBe(
-			'Unknown'
-		);
-	});
-
 	test('encode', () => {
 		const name = 'johnny appleseed';
 		const uriEncoded = encodeURIComponent(name);
 		expect(encode(name)).toBe(uriEncoded);
 
-		enableObfuscation();
-
 		const out = encode(name);
 		expect(out).toBeTruthy();
-		expect(out).not.toBe(uriEncoded);
 		expect(out).not.toBe(name);
 	});
 
@@ -47,10 +26,6 @@ describe('User utils', () => {
 		const uriEncoded = encodeURIComponent(name);
 
 		expect(decode(uriEncoded)).toBe(name);
-
-		enableObfuscation();
-		expect(decode(uriEncoded)).toBe(name);
-		expect(decode(uriEncoded, true)).toBe(null);
 		expect(decode(encode(name), true)).toBe(name);
 		expect(decode(encode(name))).toBe(name);
 	});
@@ -73,7 +48,6 @@ describe('User utils', () => {
 			).toHaveBeenCalled()
 		);
 
-		enableObfuscation();
 		const resolveMakeRequestEncoded = resolve({
 			entityId: encode(entityId),
 		});
