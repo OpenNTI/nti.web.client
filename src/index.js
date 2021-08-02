@@ -445,6 +445,8 @@ export async function initErrorReporter() {
 			'ResizeObserver loop limit exceeded',
 			'credentials required',
 			'bad password',
+			// MSFT crawler:
+			'Non-Error promise rejection captured with value: Object Not Found Matching Id',
 		],
 		integrations: [
 			new SentryTracing.Integrations.BrowserTracing(),
