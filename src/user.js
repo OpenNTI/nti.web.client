@@ -9,7 +9,7 @@
  * @module User
  */
 
-import { getAppUsername, getService } from './index';
+import { getService } from './index';
 
 /**
  * URL encodes username (and if the site is configured to hide usernames, it obfuscates them too)
@@ -53,7 +53,8 @@ export function decode(blob, strict) {
  *                     with a reason for failure.
  */
 export async function resolve({ me, entity, entityId }, strict = false) {
-	entity = me ? getAppUsername() : entity || entityId;
+	const service = await getService();
+	entity = me ? service.getAppUsername() : entity || entityId;
 
 	if (!entity) {
 		throw new Error('No Entity');
@@ -64,8 +65,6 @@ export async function resolve({ me, entity, entityId }, strict = false) {
 	}
 
 	entityId = decode(entity, strict);
-
-	const service = await getService();
 
 	return service.resolveEntity(entityId);
 }
