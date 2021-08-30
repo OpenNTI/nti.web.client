@@ -27,12 +27,12 @@ export const hookService = keyValues =>
  * @param {Object} [flags]
  * @returns {void}
  */
-export const setupTestClient = (
+export function setupTestClient(
 	service = {},
 	username = 'Test',
 	siteName = 'Tests',
 	flags = {}
-) => {
+) {
 	global.dispatchEvent?.(new CustomEvent('flush-service-document'));
 	const g = global.$AppConfig || {};
 	if (service?.mockInstanceData) {
@@ -55,17 +55,35 @@ export const setupTestClient = (
 				Promise.resolve(global.$AppConfig.nodeService),
 		},
 	};
-};
+}
+
+/**
+ * This will call a hook that will suspend react on first call so that when a test uses the hook the reader will have already settled.
+ *
+ * @param {() => any} hook
+ * @returns {void}
+ */
+export async function primeMockedReader(hook) {
+	try {
+		hook?.();
+	} catch (errorOrPromise) {
+		if (errorOrPromise instanceof Promise) {
+			return await errorOrPromise;
+		}
+
+		throw errorOrPromise;
+	}
+}
 
 /**
  * Destroy the test environment.
  *
  * @returns {void}
  */
-export const tearDownTestClient = () => {
+export function tearDownTestClient() {
 	//unmock getService()
 	global.dispatchEvent?.(new CustomEvent('flush-service-document'));
 	const { $AppConfig } = global;
 	delete $AppConfig.nodeInterface;
 	delete $AppConfig.nodeService;
-};
+}
