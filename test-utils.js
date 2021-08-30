@@ -61,7 +61,7 @@ export function setupTestClient(
  * This will call a hook that will suspend react on first call so that when a test uses the hook the reader will have already settled.
  *
  * @param {() => any} hook
- * @returns {void}
+ * @returns {Promise<void>}
  */
 export async function primeMockedReader(hook) {
 	try {
