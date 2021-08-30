@@ -7,7 +7,7 @@
  * @module TestUtils
  */
 
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react-hooks/dom';
 
 import { ServiceDocument as Service } from '@nti/lib-interfaces';
 
@@ -86,6 +86,7 @@ export function tearDownTestClient() {
 	//un-mock getService()
 	global.dispatchEvent?.(new CustomEvent('flush-service-document'));
 	const { $AppConfig } = global;
+	delete $AppConfig.username;
 	delete $AppConfig.nodeInterface;
 	delete $AppConfig.nodeService;
 }
