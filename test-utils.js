@@ -7,6 +7,8 @@
  * @module TestUtils
  */
 
+import { renderHook } from '@testing-library/react-hooks';
+
 import { ServiceDocument as Service } from '@nti/lib-interfaces';
 
 /**
@@ -65,7 +67,7 @@ export function setupTestClient(
  */
 export async function primeMockedReader(hook) {
 	try {
-		hook?.();
+		renderHook(() => hook?.());
 	} catch (errorOrPromise) {
 		if (errorOrPromise instanceof Promise) {
 			return await errorOrPromise;
@@ -81,7 +83,7 @@ export async function primeMockedReader(hook) {
  * @returns {void}
  */
 export function tearDownTestClient() {
-	//unmock getService()
+	//un-mock getService()
 	global.dispatchEvent?.(new CustomEvent('flush-service-document'));
 	const { $AppConfig } = global;
 	delete $AppConfig.nodeInterface;
