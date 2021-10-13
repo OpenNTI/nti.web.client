@@ -55,6 +55,7 @@ export function createElement(document, tag, props) {
  * ```js
  * import {ExternalLibraryManager} from '@nti/web-client';
  * ```
+ *
  * @module ExternalLibraryManager
  */
 export default {

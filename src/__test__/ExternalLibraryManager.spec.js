@@ -1,7 +1,7 @@
 /* eslint-env jest */
 import Logger from '@nti/util-logger';
 
-import Mixin, { //eslint-disable-line no-unused-vars
+import {  
 	getSymbol,
 	appendToSingletonElement,
 	createElement,
