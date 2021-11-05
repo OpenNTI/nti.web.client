@@ -36,7 +36,8 @@
     "@nti/lib-dispatcher": "NextThought/nti.lib.dispatcher",
     "@nti/lib-interfaces": "NextThought/nti.lib.interfaces",
     "@nti/util-logger": "NextThought/nti.util.logger",
-    "@nti/web-storage": "NextThought/nti.web.storage"
+    "@nti/web-storage": "NextThought/nti.web.storage",
+    "js-base64": "^3.7.0"
   },
   "devDependencies": {
     "@nti/app-scripts": "^2.0.0"
