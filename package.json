@@ -32,7 +32,7 @@
   "dependencies": {
     "@sentry/react": "^6.1.0",
     "@sentry/integrations": "^6.1.0",
-    "@sentry/tracing": "^6.1.0",
+    "@sentry/tracing": "^7.20.0",
     "@nti/lib-dispatcher": "NextThought/nti.lib.dispatcher",
     "@nti/lib-interfaces": "NextThought/nti.lib.interfaces",
     "@nti/util-logger": "NextThought/nti.util.logger",
