@@ -30,7 +30,7 @@
   "author": "nextthought",
   "license": "UNLICENSED",
   "dependencies": {
-    "@sentry/react": "^6.1.0",
+    "@sentry/react": "^7.30.0",
     "@sentry/integrations": "^6.1.0",
     "@sentry/tracing": "^6.1.0",
     "@nti/lib-dispatcher": "NextThought/nti.lib.dispatcher",
